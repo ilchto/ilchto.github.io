@@ -1,0 +1,397 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+      }
+      #header {
+        position: fixed;
+        width: 100%;
+        top: 0px;
+        transition: top 0.3s; /* Transition effect when sliding down (and up) */
+      }
+      #top_space {
+        height: 128px;
+        width: 100%;
+      }
+      #top_header {
+        background-color: black; /* Black background color */
+        width: 100%; /* Full width */
+        height: 50px;
+      }
+      #search_header {
+        background-color: #37e1cd; /* Black background color */
+        width: 100%; /* Full width */
+        height: 120px;
+      }
+      #content {
+        width: 100%;
+      }
+      #cards {
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+      }
+      #cart_background {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        background: rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+      }
+      #cart {
+        overflow-y: auto;
+        position: fixed;
+        right: 0px;
+        width: 360px;
+        background: white;
+        transition: right 0.3s;
+        /*box-shadow: 0px 0px 40px rgba(0,0,0,0.7);*/
+      }
+      #cart_mini {
+        position: fixed;
+        height: 98px;
+        width: 100%;
+        max-width: 500px;
+        right: 0px;
+        bottom: 0px;
+      }
+      #cart_mini div {
+        box-sizing: border-box;
+        margin: 10px;
+        background: black;
+        height: 78px;
+        border-radius: 5px;
+      }
+      .swiper-container {
+        width: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        width: 140px;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+      .swiper-slide img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        -ms-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <!--<div id='top_header'></div>-->
+      <div id='search_header'></div>
+    </div>
+    <div id="content">
+      <div id="top_space"></div>
+      <div id="content">
+        <div id="cards">
+          <br><br>moi<br><br><br><div class="swiper-container" style="height: 140px;">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">Slide 1</div>
+              <div class="swiper-slide">Slide 2</div>
+              <div class="swiper-slide">Slide 3</div>
+              <div class="swiper-slide">Slide 4</div>
+              <div class="swiper-slide">Slide 5</div>
+              <div class="swiper-slide">Slide 6</div>
+              <div class="swiper-slide">Slide 7</div>
+              <div class="swiper-slide">Slide 8</div>
+              <div class="swiper-slide">Slide 9</div>
+              <div class="swiper-slide">Slide 10</div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><div style="height: 30px;width: 100%;position: relative;"><div class="sticky" style="left: 0px;width: 100%;height: 30px;background: red;"></div></div><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><div style="height: 60px;width: 100%;position: relative;"><div class="sticky" style="left: 0px;width: 100%;height: 60px;background: blue;"></div></div><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi
+
+          <br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><img width="612" height="612" data-src="http://farm8.staticflickr.com/7207/6821596428_cdae70e306_o.jpg" src="blank.gif" class="lazy"><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><img width="612" height="612" data-src="http://farm8.staticflickr.com/7037/6965140403_9fbb5e7f96_o.jpg" src="blank.gif" class="lazy"><br><br><br>moi<br><br>
+        </div>
+
+      </div>
+      <div id=cart_mini>
+        <div></div>
+      </div>
+      <div id="cart_background" style="display: none;"></div>
+      <div id="cart">
+        <br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+      var meta_data = {
+        cart_open: false,
+        cart_mini_open: false,
+        mini_content_state: null,
+        search_header: 120,
+      }
+
+      var swiper = new Swiper(".swiper-container", {
+        pagination: {
+          el: ".swiper-pagination",
+          type: "progressbar"
+        },
+        slidesPerView: "auto",
+        breakpoints: {
+          0: {
+            slidesPerGroup: 2,
+          },
+          768: {
+            slidesPerGroup: 3,
+          },
+          1024: {
+            slidesPerGroup: 4,
+          },
+        }
+      });
+
+
+      document.getElementById("cards").onscroll = function (e) {
+        var h = window.innerHeight;
+        document.getElementById("cards").style.height = (h-128)+"px";
+        var sticky = document.getElementsByClassName("sticky");
+        var top_space = e.target.scrollTop;
+
+        for (var i=0; sticky.length>i; i++) {
+          var sticky_ = sticky[i];
+          if (e.target.scrollTop >= sticky_.parentElement.offsetTop) {
+            sticky_.style.top = meta_data.search_header+8+"px";
+            sticky_.style.position = "fixed";
+          } else {
+            sticky_.style.position = "";
+            sticky_.style.width = "100%";
+          }
+          sticky_.style.width = sticky_.parentElement.getBoundingClientRect().width+"px";
+        }
+      }
+
+
+      window.addEventListener("resize", content_resize, false);
+      document.getElementById("cart_background").addEventListener("mousedown", function (e) {
+        cart_close();
+      });
+      document.getElementById("cart_background").addEventListener("touchstart", function (e) {
+        cart_close();
+      });
+
+      content_resize();
+
+
+      function mini_cart_open () {
+        document.getElementById("cart_mini").style.display = "";
+        meta_data.cart_mini_open = true;
+      }
+      function mini_cart_close () {
+        document.getElementById("cart_mini").style.display = "none";
+        meta_data.cart_mini_open = false;
+      }
+      function cart_open () {
+        document.getElementById("cart").style.display = "";
+        document.getElementById("cart_background").style.display = "";
+        setTimeout(function () {
+          document.getElementById("cart").style.right = "0px";
+          document.getElementById("cart_background").style.backgroundColor = "rgba(0,0,0,0.2)";
+        }, 1);
+        meta_data.cart_open = true;
+      }
+      function cart_close () {
+        document.getElementById("cart").style.right = "-360px";
+        document.getElementById("cart_background").style.backgroundColor = "rgba(0,0,0,0.0)";
+        setTimeout(function () {
+          if(!meta_data.cart_open) {
+            document.getElementById("cart_background").style.display = "none";
+          }
+        }, 300);
+        meta_data.cart_open = false;
+      }
+
+      function content_resize() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+
+        var sticky = document.getElementsByClassName("sticky");
+
+        for (var i=0; sticky.length>i; i++) {
+          var sticky_ = sticky[i];
+          sticky_.style.width = sticky_.parentElement.getBoundingClientRect().width+"px";
+        }
+
+        if (w < 1024) {
+          if (!meta_data.mini_content_state || meta_data.mini_content_state == null) {
+            if (meta_data.cart_mini_open) {
+              document.getElementById("cart_mini").style.display = "";
+            } else {
+              document.getElementById("cart_mini").style.display = "none";
+            }
+            document.getElementById("cart").style.right = "-360px";
+            document.getElementById("cart").style.display = "none";
+            document.getElementById("cart").style.height = "100%";
+            document.getElementById("cart").style.top = "0px";
+            document.getElementById("cards").style.width = "auto";
+          }
+          document.getElementById("cards").style.height = (h-128)+"px";
+          meta_data.mini_content_state = true;
+        } else {
+          if (meta_data.mini_content_state || meta_data.mini_content_state == null) {
+            document.getElementById("cards").style.height = "auto";
+            document.getElementById("cart_mini").style.display = "none";
+            document.getElementById("cart").style.top = "128px";
+            document.getElementById("cart").style.right = "0px";
+            document.getElementById("cart").style.display = "";
+          }
+          document.getElementById("cards").style.height = (h-128)+"px";
+          document.getElementById("cart").style.height = (h-128)+"px";
+          document.getElementById("cards").style.width = (w-360)+"px";
+          meta_data.mini_content_state = false;
+        }
+      }
+
+      function parse_query_string(query) {
+        var vars = query.split("&");
+        var query_string = {};
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          var key = decodeURIComponent(pair[0]);
+          var value = decodeURIComponent(pair[1]);
+          // If first entry with this name
+          if (typeof query_string[key] === "undefined") {
+            query_string[key] = decodeURIComponent(value);
+            // If second entry with this name
+          } else if (typeof query_string[key] === "string") {
+            var arr = [query_string[key], decodeURIComponent(value)];
+            query_string[key] = arr;
+            // If third or later entry with this name
+          } else {
+            query_string[key].push(decodeURIComponent(value));
+          }
+        }
+        return query_string;
+      }
+
+      history.pushState('data to be passed', 'Title of the page', '?arg=1&arg2=1');
+
+      console.log(parse_query_string(window.location.href.split("?")[1]))
+
+/*Changing only what's after hash - old browsers
+
+document.location.hash = 'lookAtMeNow';
+Changing full URL. Chrome, Firefox, IE10+
+
+history.pushState('data to be passed', 'Title of the page', '/test');
+The above will add a new entry to the history so you can press Back button to go to the previous state. To change the URL in place without adding a new entry to history use
+
+history.replaceState('data to be passed', 'Title of the page', '/test');
+Try running these in the console now!*/
+
+// LAZY LOAD IMAGE EI TOIMI KUIN YLEIS SCROLLAUKSESSA..
+
+      !function(window){
+        var $q = function(q, res){
+              if (document.querySelectorAll) {
+                res = document.querySelectorAll(q);
+              } else {
+                var d=document
+                  , a=d.styleSheets[0] || d.createStyleSheet();
+                a.addRule(q,'f:b');
+                for(var l=d.all,b=0,c=[],f=l.length;b<f;b++)
+                  l[b].currentStyle.f && c.push(l[b]);
+
+                a.removeRule(0);
+                res = c;
+              }
+              return res;
+            }
+          , addEventListener = function(evt, fn){
+              window.addEventListener
+                ? this.addEventListener(evt, fn, false)
+                : (window.attachEvent)
+                  ? this.attachEvent('on' + evt, fn)
+                  : this['on' + evt] = fn;
+            }
+          , _has = function(obj, key) {
+              return Object.prototype.hasOwnProperty.call(obj, key);
+            }
+          ;
+
+        function loadImage (el, fn) {
+          var img = new Image()
+            , src = el.getAttribute('data-src');
+          img.onload = function() {
+            if (!! el.parent)
+              el.parent.replaceChild(img, el)
+            else
+              el.src = src;
+
+            fn? fn() : null;
+          }
+          img.src = src;
+        }
+
+        function elementInViewport(el) {
+          var rect = el.getBoundingClientRect()
+
+          return (
+             rect.top    >= 0
+          && rect.left   >= 0
+          && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
+          )
+        }
+
+          var images = new Array()
+            , query = $q('img.lazy')
+            , processScroll = function(){
+                for (var i = 0; i < images.length; i++) {
+                  if (elementInViewport(images[i])) {
+                    loadImage(images[i], function () {
+                      images.splice(i, i);
+                    });
+                  }
+                };
+              }
+            ;
+          // Array.prototype.slice.call is not callable under our lovely IE8
+          for (var i = 0; i < query.length; i++) {
+            images.push(query[i]);
+          };
+
+          processScroll();
+          addEventListener('scroll',processScroll);
+
+      }(this);
+
+
+    </script>
+  </body>
+</html>
