@@ -5,6 +5,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>
     <style>
       body {
         margin: 0;
@@ -123,7 +125,7 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide">Slide 1</div>
               <div class="swiper-slide">Slide 2</div>
-              <div class="swiper-slide">Slide 3</div>
+              <div class="swiper-slide"><div id="go_to_anchor" style="cursor: pointer; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;">CLICK ME!</div></div>
               <div class="swiper-slide">Slide 4</div>
               <div class="swiper-slide">Slide 5</div>
               <div class="swiper-slide">Slide 6</div>
@@ -133,7 +135,7 @@
               <div class="swiper-slide">Slide 10</div>
             </div>
             <div class="swiper-pagination"></div>
-          </div><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><div style="height: 30px;width: 100%;position: relative;"><div class="sticky" style="left: 0px;width: 100%;height: 30px;background: red;"></div></div><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><div style="height: 60px;width: 100%;position: relative;"><div class="sticky" style="left: 0px;width: 100%;height: 60px;background: blue;"></div></div><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi
+          </div><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><div style="height: 30px;width: 100%;position: relative;"><div class="sticky" style="left: 0px;width: 100%;height: 30px;background: red;"></div></div><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><div style="height: 60px;width: 100%;position: relative;"><div class="sticky" style="left: 0px;width: 100%;height: 60px;background: blue;"></div></div><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi <div id="anchor">Otsikko</div>
 
           <br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><br><br><img width="612" height="612" data-src="http://farm8.staticflickr.com/7207/6821596428_cdae70e306_o.jpg" src="blank.gif" class="lazy"><br>moi<br><br><br><br>moi<br><br><br><br>moi<br><img width="612" height="612" data-src="http://farm8.staticflickr.com/7037/6965140403_9fbb5e7f96_o.jpg" src="blank.gif" class="lazy"><br><br><br>moi<br><br>
         </div>
@@ -157,21 +159,37 @@
         search_header: 120,
       }
 
+
+
+
+
+      document.getElementById("go_to_anchor").onclick = function (e) {
+        var newSiteY = document.getElementById("anchor").offsetTop-60;
+        var obj = {siteY:document.getElementById("cards").scrollTop};
+        console.log(newSiteY, obj.siteY);
+
+        TweenLite.to(obj, 1.2, {siteY:newSiteY, ease: Power2.easeInOut, onUpdate:function () {
+          console.log(obj.siteY);
+          document.getElementById("cards").scrollTop = obj.siteY;
+        }});
+        //TweenLite.to('#anchor', 0.3, )
+      }
+
       var swiper = new Swiper(".swiper-container", {
-        pagination: {
+        /*pagination: {
           el: ".swiper-pagination",
           type: "progressbar"
-        },
+        },*/
         slidesPerView: "auto",
         breakpoints: {
           0: {
             slidesPerGroup: 2,
           },
+          /*768: {
+            slidesPerGroup: 3,
+          },*/
           768: {
             slidesPerGroup: 3,
-          },
-          1024: {
-            slidesPerGroup: 4,
           },
         }
       });
@@ -276,6 +294,7 @@
           document.getElementById("cards").style.width = (w-360)+"px";
           meta_data.mini_content_state = false;
         }
+        swiper.update()
       }
 
       function parse_query_string(query) {
@@ -304,92 +323,6 @@
 
       console.log(parse_query_string(window.location.href.split("?")[1]))
 
-/*Changing only what's after hash - old browsers
-
-document.location.hash = 'lookAtMeNow';
-Changing full URL. Chrome, Firefox, IE10+
-
-history.pushState('data to be passed', 'Title of the page', '/test');
-The above will add a new entry to the history so you can press Back button to go to the previous state. To change the URL in place without adding a new entry to history use
-
-history.replaceState('data to be passed', 'Title of the page', '/test');
-Try running these in the console now!*/
-
-// LAZY LOAD IMAGE EI TOIMI KUIN YLEIS SCROLLAUKSESSA..
-
-      !function(window){
-        var $q = function(q, res){
-              if (document.querySelectorAll) {
-                res = document.querySelectorAll(q);
-              } else {
-                var d=document
-                  , a=d.styleSheets[0] || d.createStyleSheet();
-                a.addRule(q,'f:b');
-                for(var l=d.all,b=0,c=[],f=l.length;b<f;b++)
-                  l[b].currentStyle.f && c.push(l[b]);
-
-                a.removeRule(0);
-                res = c;
-              }
-              return res;
-            }
-          , addEventListener = function(evt, fn){
-              window.addEventListener
-                ? this.addEventListener(evt, fn, false)
-                : (window.attachEvent)
-                  ? this.attachEvent('on' + evt, fn)
-                  : this['on' + evt] = fn;
-            }
-          , _has = function(obj, key) {
-              return Object.prototype.hasOwnProperty.call(obj, key);
-            }
-          ;
-
-        function loadImage (el, fn) {
-          var img = new Image()
-            , src = el.getAttribute('data-src');
-          img.onload = function() {
-            if (!! el.parent)
-              el.parent.replaceChild(img, el)
-            else
-              el.src = src;
-
-            fn? fn() : null;
-          }
-          img.src = src;
-        }
-
-        function elementInViewport(el) {
-          var rect = el.getBoundingClientRect()
-
-          return (
-             rect.top    >= 0
-          && rect.left   >= 0
-          && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
-          )
-        }
-
-          var images = new Array()
-            , query = $q('img.lazy')
-            , processScroll = function(){
-                for (var i = 0; i < images.length; i++) {
-                  if (elementInViewport(images[i])) {
-                    loadImage(images[i], function () {
-                      images.splice(i, i);
-                    });
-                  }
-                };
-              }
-            ;
-          // Array.prototype.slice.call is not callable under our lovely IE8
-          for (var i = 0; i < query.length; i++) {
-            images.push(query[i]);
-          };
-
-          processScroll();
-          addEventListener('scroll',processScroll);
-
-      }(this);
 
 
     </script>
