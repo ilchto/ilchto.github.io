@@ -168,7 +168,7 @@
         var obj = {siteY:document.getElementById("cards").scrollTop};
         console.log(newSiteY, obj.siteY);
 
-        TweenLite.to(obj, 0.5, {siteY:newSiteY, ease: Power2.easeInOut, onUpdate:function () {
+        TweenLite.to(obj, 1, {siteY:newSiteY, ease: Power2.easeInOut, onUpdate:function () {
           console.log(obj.siteY);
           document.getElementById("cards").scrollTop = obj.siteY;
         }});
