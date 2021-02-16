@@ -1,1 +1,239 @@
-TESTI!!
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none;
+      }
+      .widgetSlider-root {
+        width: 100%;
+        padding: 11px 0px;
+        cursor: pointer;
+        height: 2px;
+        position: relative;
+      }
+      .widgetSlider-rail {
+        width: 100%;
+        height: 2px;
+        background: #1976d2;
+        opacity: 0.38;
+      }
+      .widgetSlider-track {
+        position: absolute;
+        height: 2px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #1976d2;
+        width: 50%;
+        left: 0%;
+      }
+      .widgetSlider-thumb {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        height: 12px;
+        width: 12px;
+        background: #1976d2;
+        border-radius: 50%;
+      }
+      .widgetSlider-thumbShaddow {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        height: 0px;
+        width: 0px;
+        background: #1976d2;
+        border-radius: 50%;
+        -webkit-transition: width .2s, height .2s;
+        transition: width .2s, height .2s;
+        opacity: 0.38;;
+      }
+      .widgetSlider-popup {
+        position: absolute;
+        left: 50%;
+        top: -50%;
+        transform: translate(-50%,-50%) rotate(45deg);
+        width: 32px;
+        height: 32px;
+        background: #1976d2;
+        border-radius: 50%;
+        border-bottom-right-radius: 0px;
+        opacity: 0;
+        -webkit-transition: top .2s, opacity .2s;
+        transition: top .2s, opacity .2s;
+        pointer-events: none;
+
+      }
+      .widgetSlider-popupNumber {
+        color: white;
+        pointer-events: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%) rotate(-45deg);
+        font-size: 10px;
+      }
+
+    </style>
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div id="space" style="height: 40px;"></div>
+    <div id="test"></div>
+    <div id="test2"></div>
+
+
+    <script type="text/javascript">
+
+      var test = document.getElementById("test");
+
+      scaleSlider(test);
+      scaleSlider(document.getElementById("test2"), {selected:4, onSelected:function (e) {console.log(e);}});
+
+      function scaleSlider (target, options) {
+        var _options = {
+          selected: 2,
+          onSelected: null,
+          steps: [
+            {text: "Ei kiitos",icon: "M17 15.134l-.562-.742c-3.568 2.728-4.703-3.279-9.438 1.574l.641.771c3.664-3.036 4.726 3.144 9.359-1.603zm-5-13.134c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-3.5 8c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"},
+            {text: "Ei suosikkini", icon:"M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4 17h-8v-2h8v2zm-7.5-9c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"},
+            {text: "Neutraali", icon:"M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.507 13.941c-1.512 1.195-3.174 1.931-5.506 1.931-2.334 0-3.996-.736-5.508-1.931l-.493.493c1.127 1.72 3.2 3.566 6.001 3.566 2.8 0 4.872-1.846 5.999-3.566l-.493-.493zm-9.007-5.941c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"},
+            {text: "Tykkään", icon:"M12.939 21.27c-1.623-1.903-2.436-3.029-4.277-4.185-1.141-.717-2.04-1.702-2.662-2.651l.512-.512.001.001c2.482 1.961 4.757 2.255 9.434 2.255 0 0 1.226 1.214 2.42 2.623 2.74 3.229-2.233 6.215-5.428 2.469zm-2.057.664c-4.988-.559-8.882-4.798-8.882-9.934 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.168-.701 4.172-1.879 5.812.48.643.802 1.331.95 2.028 1.821-2.103 2.929-4.84 2.929-7.84 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c.319 0 .633-.023.946-.048-.943-.653-1.358-1.181-2.064-2.018zm4.618-13.934c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm-7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"},
+            {text: "Parasta!", icon: "M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z"}
+          ]
+        }
+        if(options) {
+          for(var option in options) {
+            _options[option] = options[option];
+          }
+        }
+
+        var pos = 0;
+        var scale = 0;
+        var scale_steps = 100/(_options.steps.length-1);
+        var this_step = null;
+        var this_step_i = null;
+        var icon = null;
+        for (var i=0; i<_options.steps.length; i++) {
+          _options.steps[i]['level'] = i*scale_steps;
+        }
+
+        var root = target.appendChild(HTML_elm('<div style="position: relative; margin: 0 40; height: 86;"></div>'));
+        var rail = root.appendChild(HTML_elm('<div style="position: absolute;width: 100%;height: 6px;background: #d4d4d4;border-radius: 3px;overflow: hidden;top: 50%;transform: translateY(-50%);"></div>'));
+        var track = rail.appendChild(HTML_elm('<div style="position: absolute; left: 0px; top: 0px; width: 50%; height: 100%; background: gray;"></div>'));
+        track.style.width = (_options.selected)*scale_steps+"%";
+        var thumb_shadow = root.appendChild(HTML_elm('<div style="position: absolute; background: rgba(0,0,0,0.3); left: 50%; top: 50%; transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s; width: 16px; height: 16px; border-radius: 50%;"></div>'));
+        thumb_shadow.style.left = (_options.selected)*scale_steps+"%";
+        var thumb = thumb_shadow.appendChild(HTML_elm('<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: black; width: 16px; height: 16px; border-radius: 50%;"></div>'));
+        var thumb_text = thumb.appendChild(HTML_elm('<div style="position: absolute;top: 28px;left: 50%;transform: translateX(-50%);text-align: center;font-size: 14px; font-weight: 700; width: 82px;">Very GOOD!</div>'));
+        thumb_text.innerHTML = _options.steps[_options.selected].text;
+        for (var i=0; i<_options.steps.length; i++) {
+          var step = scale+i*scale_steps;
+          if (i==_options.selected) {
+            var icon = root.appendChild(HTML_elm('<svg class="scaleinput_icon" style="position: absolute; transition: 0.2s; opacity:1; transform: translateX(-50%); left: '+step+'%; width: 24px; height: 24px; top: 5px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="'+_options.steps[i].icon+'"/></svg>'));
+          } else {
+            var icon = root.appendChild(HTML_elm('<svg class="scaleinput_icon" style="position: absolute; transition: 0.2s; opacity:0; transform: translateX(-50%); left: '+step+'%; width: 24px; height: 24px; top: 10px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="'+_options.steps[i].icon+'"/></svg>'));
+          }
+
+        }
+
+        root.addEventListener("mousedown", start);
+        root.addEventListener("touchstart", start);
+
+
+
+        function start (e) {
+          window.addEventListener("touchmove", move);
+          window.addEventListener("mousemove", move);
+          window.addEventListener("touchend", end);
+          window.addEventListener("mouseup", end);
+          if (e.type == "touchstart") {
+            pos = Math.min(Math.max(e.touches[0].clientX,root.getBoundingClientRect().left),root.getBoundingClientRect().right);
+          } else {
+            pos = Math.min(Math.max(e.clientX,root.getBoundingClientRect().left),root.getBoundingClientRect().right);
+          }
+          pos = numberScale(pos, root.getBoundingClientRect().left,root.getBoundingClientRect().right,0,100);
+          thumb_shadow.style.height = 40;
+          thumb_shadow.style.width = 40;
+          changes();
+        }
+        function move (e) {
+          if (e.type == "touchmove") {
+            pos = Math.min(Math.max(e.touches[0].clientX,root.getBoundingClientRect().left),root.getBoundingClientRect().right);
+          } else {
+            pos = Math.min(Math.max(e.clientX,root.getBoundingClientRect().left),root.getBoundingClientRect().right);
+          }
+          pos = numberScale(pos, root.getBoundingClientRect().left,root.getBoundingClientRect().right,0,100);
+          changes();
+        }
+        function end (e) {
+          thumb_shadow.style.height = 16;
+          thumb_shadow.style.width = 16;
+          window.removeEventListener("touchmove", move);
+          window.removeEventListener("mousemove", move);
+          window.removeEventListener("touchend", end);
+          window.removeEventListener("mouseup", end);
+          TweenLite.to(thumb_shadow, 0.2, {left:(this_step.level+"%")});
+          TweenLite.to(track, 0.2, {width:(this_step.level+"%")});
+          icon.style.top = "5px";
+          if (_options.onSelected) {
+            _options.onSelected({selected: this_step_i, text: this_step.text});
+          }
+        }
+
+        function changes() {
+          thumb_shadow.style.left = pos+"%";
+          track.style.width = pos+"%";
+          var icons = root.getElementsByClassName("scaleinput_icon");
+          for (var i=0; i<_options.steps.length; i++) {
+            _this = _options.steps[i];
+            if (_this.level-(scale_steps/2) <= pos) {
+              if (((_this.level-(scale_steps/2))+scale_steps)>pos) {
+                this_step = _this;
+                this_step_i = i;
+                icon = icons[i];
+              }
+            }
+            icons[i].style.opacity = 0;
+            icons[i].style.top = "10px";
+          }
+
+          thumb_text.innerHTML = this_step.text;
+          icon.style.opacity = 1;
+          icon.style.top = "-4px";
+        }
+      }
+
+
+
+      function HTML_elm(htmlString) {
+        var div = document.createElement('div');
+        div.innerHTML = htmlString.trim();
+        return div.firstChild;
+        delete div;
+      }
+
+      function numberScale(val, min, max, smin, smax) {
+        if(max - min === 0) return 1; // or 0, it's up to you
+        var pros = (val - min) / (max - min);
+        var r = smin+pros*(smax-smin)
+        return r;
+      }
+
+    </script>
+  </body>
+</html>
+
