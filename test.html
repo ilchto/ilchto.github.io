@@ -152,6 +152,9 @@
 
         root.addEventListener("mousedown", start);
         root.addEventListener("touchstart", start);
+        root.addEventListener("click", function (e) {
+          e.preventDefault();
+        })
 
 
 
@@ -236,4 +239,3 @@
     </script>
   </body>
 </html>
-
