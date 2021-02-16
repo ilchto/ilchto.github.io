@@ -182,10 +182,9 @@
           }
           pos = numberScale(pos, root.getBoundingClientRect().left,root.getBoundingClientRect().right,0,100);
           changes();
-          e.preventDefault();
+          //e.preventDefault();
         }
         function end (e) {
-          console.log(e);
           thumb_shadow.style.height = 16;
           thumb_shadow.style.width = 16;
           window.removeEventListener("touchmove", move);
