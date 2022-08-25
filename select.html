@@ -54,6 +54,9 @@
       .bigCalendar {
         transition: height 0.5s;
       }
+      .bigCalendar.dragging {
+        transition: height 0.0s;
+      }
       .mysticky {
         position: relative;
         z-index: 100;
@@ -662,29 +665,117 @@
         }
 
         let wider = target.querySelector(".calWider");
-        wider.addEventListener("click", function (e) {
-          if(e.target.className == "calWider close") {
-            e.target.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][1];
-            activateDayInBigCalendar(formatDate(currentWeekFirstDate), 0, "week");
-            e.target.className = "calWider open";
+        let bigCal = target.querySelector(".bigCalendar");
+        let maxHeight = 300;
+        let minHeight = 50;
+        let startHeight;
+        let clickOpen = false;
+        let allowMouse = true;
+        let startState = "close";
+        let startY;
+        wider.addEventListener("touchstart",dragStart);
+        wider.addEventListener("mousedown",dragStart);
+
+        function dragStart (e) {
+          if(e.type=="touchstart" || allowMouse) {
+            window.addEventListener("touchmove", drag, {passive: false});
+            window.addEventListener("mousemove", drag);
+            window.addEventListener("touchend", dragEnd);
+            window.addEventListener("mouseup", dragEnd);
             target.querySelector(".swiper").style.display = "none";
-            target.querySelector(".bigCalendar").style.display = "";
-            setTimeout(function (){
-              target.querySelector(".bigCalendar").style.height = "250px";
-            }, 1);
-          } else {
-            target.querySelector(".bigCalendar").style.height = "50px";
-            e.target.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][0];
+            bigCal.style.display = "";
+            bigCal.classList.add("dragging");
+            startHeight = bigCal.getBoundingClientRect().height;
+            clickOpen = true;
             setTimeout(function () {
-              target.querySelector(".swiper").style.display = "";
-              target.querySelector(".bigCalendar").style.display = "none";
-              setTimeout(function () {
-                weekSwiper.slideTo(selectedDayIndex,300);
-              }, 50);
-            }, 500);
-            e.target.className = "calWider close";
+              clickOpen = false;
+            }, 400);
+            if(wider.className == "calWider close") {
+              startState = "close";
+            } else {
+              startState = "open";
+            }
           }
-        });
+          if(e.type == "touchstart") {
+            allowMouse = false;
+            startY = e.touches[0].clientY;
+          } else {
+            startY = e.clientY;
+          }
+        }
+        function drag (e) {
+          let y;
+          if(e.type == "touchmove") {
+            y = e.touches[0].clientY;
+          } else {
+            y = e.clientY;
+          }
+          let y_ = y-startY;
+          let thisHeight = Math.max(minHeight,Math.min(maxHeight, (y_+startHeight)));
+          bigCal.style.height = thisHeight+"px";
+          if(startState == "close") {
+            if(y_>50) {
+              clickOpen = true;
+            } else {
+              clickOpen = false;
+            }
+          } else {
+            if(y_<-50) {
+              clickOpen = true;
+            } else {
+              clickOpen = false;
+            }
+          }
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+        function dragEnd (e) {
+          bigCal.classList.remove("dragging");
+          window.removeEventListener("touchmove", drag);
+          window.removeEventListener("mousemove", drag);
+          window.removeEventListener("touchend", dragEnd);
+          window.removeEventListener("mouseup", dragEnd);
+          if (clickOpen) {
+            console.log("GO");
+            if(wider.className == "calWider close") {
+              console.log("open");
+              openCal();
+            } else {
+              console.log("close");
+              closeCal();
+            }
+          } else {
+            console.log("NOT GO");
+            if(wider.className == "calWider close") {
+              console.log("open");
+              closeCal();
+            } else {
+              console.log("close");
+              openCal();
+            }
+          }
+
+        }
+        function openCal() {
+          wider.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][1];
+          activateDayInBigCalendar(formatDate(currentWeekFirstDate), 0, "week");
+          wider.className = "calWider open";
+          setTimeout(function (){
+            bigCal.style.height = maxHeight+"px";
+          }, 1);
+        }
+        function closeCal() {
+          bigCal.style.height = minHeight+"px";
+          wider.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][0];
+          setTimeout(function () {
+            target.querySelector(".swiper").style.display = "";
+            bigCal.style.display = "none";
+            setTimeout(function () {
+              weekSwiper.slideTo(selectedDayIndex,300);
+            }, 50);
+          }, 500);
+          wider.className = "calWider close";
+        }
       }
 
 
