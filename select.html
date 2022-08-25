@@ -1,0 +1,719 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/semantic.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/swiper-bundle.min.css"/>
+    <style>
+      body {
+        min-width: 360px;
+      }
+      #topbar{
+        height: 65px;
+        border-bottom: 1px solid gray;
+        min-width: 360px;
+        margin: 0px;
+      }
+      #search {
+        text-align: center;
+      }
+      #person_menu {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+      }
+      #filter_row {
+        margin: 0px;
+      }
+      #content {
+        margin: auto;
+        margin-top: 65px;
+        overflow: hidden;
+        max-width: 600px;
+      }
+      #toppanel {
+        margin: 0px; position: absolute; left: 0px; top: 0px; width: 100%;
+      }
+      #bottom_footer {
+        height: 400px;
+        background: #1c1c1c;
+        margin-top: 30px;
+      }
+      .calDay {
+        background: none;
+        color: black;
+      }
+      .calDay.active {
+        background: #00b5ad;
+        color: white;
+      }
+      .calDay.disabled {
+        color: #cacaca;
+      }
+      .bigCalendar {
+        transition: height 0.5s;
+      }
+      .mysticky {
+        position: relative;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/semantic.min.js"></script>
+    <script type="text/javascript" src="js/reef.min.js"></script>
+    <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/tools.js"></script>
+    <div id="content">
+      <div id="filter_row"></div>
+      <div id="calendar" style="padding: 1rem 0px;background: rgb(231 240 239);"></div>
+      <div>
+        <h4>Scroll Container</h4>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus,
+            ex eu sagittis faucibus, ligula ipsum sagittis magna, et imperdiet
+            dolor lectus eu libero. Vestibulum venenatis eget turpis sed
+            faucibus. Maecenas in ullamcorper orci, eu ullamcorper sem. Etiam
+            elit ante, luctus non ante sit amet, sodales vulputate odio. Aenean
+            tristique nisl tellus, sit amet fringilla nisl volutpat cursus.
+            Quisque dignissim lectus ac nunc consectetur mattis. Proin vel
+            hendrerit ipsum, et lobortis dolor. Vestibulum convallis, nibh et
+            tincidunt tristique, nisl risus facilisis lectus, ut interdum orci
+            nisl ac nunc. Cras et aliquam felis. Quisque vel ipsum at elit
+            sodales posuere eget non est. Fusce convallis vestibulum dolor non
+            volutpat. Vivamus vestibulum quam ut ultricies pretium.
+          </p>
+          <p>
+            Suspendisse rhoncus fringilla nisl. Mauris eget lorem ac urna
+            consectetur convallis non vel mi. Donec libero dolor, volutpat ut
+            urna sit amet, aliquet molestie purus. Phasellus faucibus, leo vel
+            scelerisque lobortis, ipsum leo sollicitudin metus, eget sagittis
+            ante orci eu ipsum. Nulla ac mauris eu risus sagittis scelerisque
+            iaculis bibendum mauris. Cras ut egestas orci. Cras odio risus,
+            sagittis ut nunc vitae, aliquam consectetur purus. Vivamus ornare
+            nunc vel tellus facilisis, quis dictum elit tincidunt. Donec
+            accumsan nisi at laoreet sodales. Cras at ullamcorper massa.
+            Maecenas at facilisis ex. Nam mollis dignissim purus id efficitur.
+          </p>
+          <p>
+            Curabitur eget aliquam erat. Curabitur a neque vitae purus volutpat
+            elementum. Vivamus quis vestibulum leo, efficitur ullamcorper velit.
+            Integer tincidunt finibus metus vel porta. Mauris sed mauris congue,
+            pretium est nec, malesuada purus. Nulla hendrerit consectetur arcu
+            et lacinia. Suspendisse augue justo, convallis eget arcu in, pretium
+            tempor ligula. Nullam vulputate tincidunt est ut ullamcorper.
+          </p>
+          <p>
+            Curabitur sed sodales leo. Nulla facilisi. Etiam condimentum, nisi
+            id tempor vulputate, nisi justo cursus justo, pellentesque
+            condimentum diam arcu sit amet leo. Cum sociis natoque penatibus et
+            magnis dis parturient montes, nascetur ridiculus mus. In placerat
+            tellus a posuere vehicula. Donec diam massa, efficitur vitae mattis
+            et, pretium in augue. Fusce iaculis mi quis ante venenatis, sit amet
+            pellentesque orci aliquam. Vestibulum elementum posuere vehicula.
+          </p>
+          <p>
+            Sed tincidunt diam a massa pharetra faucibus. Praesent condimentum
+            id arcu nec fringilla. Maecenas faucibus, ante et venenatis
+            interdum, erat mi eleifend dui, at convallis nisl est nec arcu. Duis
+            vitae arcu rhoncus, faucibus magna ut, tempus metus. Cras in nibh
+            sed ipsum consequat rhoncus. Proin fringilla nulla ut augue tempor
+            fermentum. Nunc hendrerit non nisi vitae finibus. Donec eget ornare
+            libero. Aliquam auctor erat enim, a semper risus semper at. In ut
+            dui in metus tincidunt euismod eget et lacus. Aenean et dictum urna,
+            sed rhoncus lorem. Duis pharetra sagittis odio. Etiam a libero ut
+            nisi feugiat tincidunt vel vitae turpis. Maecenas vel orci sit amet
+            lorem hendrerit venenatis sollicitudin ut dui. Quisque rhoncus nibh
+            in massa pretium scelerisque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus,
+            ex eu sagittis faucibus, ligula ipsum sagittis magna, et imperdiet
+            dolor lectus eu libero. Vestibulum venenatis eget turpis sed
+            faucibus. Maecenas in ullamcorper orci, eu ullamcorper sem. Etiam
+            elit ante, luctus non ante sit amet, sodales vulputate odio. Aenean
+            tristique nisl tellus, sit amet fringilla nisl volutpat cursus.
+            Quisque dignissim lectus ac nunc consectetur mattis. Proin vel
+            hendrerit ipsum, et lobortis dolor. Vestibulum convallis, nibh et
+            tincidunt tristique, nisl risus facilisis lectus, ut interdum orci
+            nisl ac nunc. Cras et aliquam felis. Quisque vel ipsum at elit
+            sodales posuere eget non est. Fusce convallis vestibulum dolor non
+            volutpat. Vivamus vestibulum quam ut ultricies pretium.
+          </p>
+          <p>
+            Suspendisse rhoncus fringilla nisl. Mauris eget lorem ac urna
+            consectetur convallis non vel mi. Donec libero dolor, volutpat ut
+            urna sit amet, aliquet molestie purus. Phasellus faucibus, leo vel
+            scelerisque lobortis, ipsum leo sollicitudin metus, eget sagittis
+            ante orci eu ipsum. Nulla ac mauris eu risus sagittis scelerisque
+            iaculis bibendum mauris. Cras ut egestas orci. Cras odio risus,
+            sagittis ut nunc vitae, aliquam consectetur purus. Vivamus ornare
+            nunc vel tellus facilisis, quis dictum elit tincidunt. Donec
+            accumsan nisi at laoreet sodales. Cras at ullamcorper massa.
+            Maecenas at facilisis ex. Nam mollis dignissim purus id efficitur.
+          </p>
+          <p>
+            Curabitur eget aliquam erat. Curabitur a neque vitae purus volutpat
+            elementum. Vivamus quis vestibulum leo, efficitur ullamcorper velit.
+            Integer tincidunt finibus metus vel porta. Mauris sed mauris congue,
+            pretium est nec, malesuada purus. Nulla hendrerit consectetur arcu
+            et lacinia. Suspendisse augue justo, convallis eget arcu in, pretium
+            tempor ligula. Nullam vulputate tincidunt est ut ullamcorper.
+          </p>
+          <p>
+            Curabitur sed sodales leo. Nulla facilisi. Etiam condimentum, nisi
+            id tempor vulputate, nisi justo cursus justo, pellentesque
+            condimentum diam arcu sit amet leo. Cum sociis natoque penatibus et
+            magnis dis parturient montes, nascetur ridiculus mus. In placerat
+            tellus a posuere vehicula. Donec diam massa, efficitur vitae mattis
+            et, pretium in augue. Fusce iaculis mi quis ante venenatis, sit amet
+            pellentesque orci aliquam. Vestibulum elementum posuere vehicula.
+          </p>
+          <p>
+            Sed tincidunt diam a massa pharetra faucibus. Praesent condimentum
+            id arcu nec fringilla. Maecenas faucibus, ante et venenatis
+            interdum, erat mi eleifend dui, at convallis nisl est nec arcu. Duis
+            vitae arcu rhoncus, faucibus magna ut, tempus metus. Cras in nibh
+            sed ipsum consequat rhoncus. Proin fringilla nulla ut augue tempor
+            fermentum. Nunc hendrerit non nisi vitae finibus. Donec eget ornare
+            libero. Aliquam auctor erat enim, a semper risus semper at. In ut
+            dui in metus tincidunt euismod eget et lacus. Aenean et dictum urna,
+            sed rhoncus lorem. Duis pharetra sagittis odio. Etiam a libero ut
+            nisi feugiat tincidunt vel vitae turpis. Maecenas vel orci sit amet
+            lorem hendrerit venenatis sollicitudin ut dui. Quisque rhoncus nibh
+            in massa pretium scelerisque.
+          </p>
+      </div>
+      <div id="bottom_footer"></div>
+    </div>
+    <div id="toppanel" style="z-index: 1000;">
+      <div class="ui grid" id="topbar">
+      <div class="three wide column"></div>
+      <div class="ten wide column" id="search_col"></div>
+      <div class="three wide column" id="person_col"></div>
+    </div></div>
+
+
+    <script type="text/javascript">
+      let {store, component, render} = reef;
+      let meta_data = {
+        search_placeholder: {fi: "Etsi palveluita...", en: "Search services..."},
+        profile: {
+          login: {fi: "Kirjaudu tai rekisteröidy", en: "Login or register"},
+          language: {fi: "Kieli", en: "Language"},
+          language_select: {fi:"Suomi", en:"English"},
+          customer_service: {fi: "Asiakaspalvelu", en: "Customer service"},
+          orders: {fi: "Tilaukseni", en: "My orders"},
+          account: {fi: "Tilini tiedot", en: "Account info"},
+          logout: {fi: "Kirjaudu ulos", en: "Logout"}
+        },
+        city: {
+          cities: ["Helsinki", "Espoo", "Tampere", "Turku", "Vantaa", "Järvenpää", "Kerava"],
+          placeholder: {fi: "Valitse kaupunki", en: "Select a city"},
+          search_placeholder: {fi:"Etsi kaupunkia...", en: "Search cities..."},
+        },
+        agent: {
+          placeholder: {fi: "Haluan että minua palvelee", en: "I want to be served by"},
+          menuheader: [{fi: "Valitse yksi", en: "Select one"},{fi: "Sinua jo palvelleet henkilöt", en: "People who have already served you"}],
+          mainoption: {fi: "Kaikki", en: "All"},
+          agents: [
+            {id: "jormamatikainen", name: "Jorma Matikainen", text: {fi: "palveli sinua 3kk sitten", en: "served you 3 months ago"}, img: "face.png"},
+            {id: "hannelehanhi", name: "Hannele Hanhi", text: {fi: "palveli sinua noin vuosi sitten", en: "served you about year ago"}, img: "face.png"}
+          ]
+        },
+        calendar: {
+          weekDays: {fi: ['M','T','K','T','P','L','S'], en: ['M','T','W','T','F','S','S']},
+          months: {
+            fi: ['Tammikuu','Helmikuu','Maalis','Huhtikuu','Toukokuu','Kesäkuu','Heinäkuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'],
+            en: ['January','February','March','April','May','June','July','August','September','October','November','December']
+          },
+          wider: {fi: ["Laajenna","Supista"], en: ["Open","Close"]}
+        }
+      };
+      let selected_language = "fi";
+      let login = false;
+      let selected_city = "Turku";
+      let selected_agent = "all";
+      let service = {fi: "Kodin perussiivous", en: "Basic house cleaning"};
+
+      create_searchaction ();
+      create_personmenu ();
+      create_filters ();
+      create_calendar ();
+
+      function create_searchaction () {
+        render(
+          '#search_col',
+          `<div class="ui small search" id="search">
+            <div class="ui icon input">
+              <input class="prompt" type="text" placeholder="${meta_data.search_placeholder[selected_language]}">
+              <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+          </div>`
+        );
+
+        let categoryContent = [
+          { category: 'South America', title: 'Brazil' },
+          { category: 'South America', title: 'Peru' },
+          { category: 'North America', title: 'Canada' },
+          { category: 'Asia', title: 'South Korea' },
+          { category: 'Asia', title: 'Japan' },
+          { category: 'Asia', title: 'China' },
+          { category: 'Europe', title: 'Denmark' },
+          { category: 'Europe', title: 'England' },
+          { category: 'Europe', title: 'France' },
+          { category: 'Europe', title: 'Germany' },
+          { category: 'Africa', title: 'Ethiopia' },
+          { category: 'Africa', title: 'Nigeria' },
+          { category: 'Africa', title: 'Zimbabwe' },
+        ];
+
+        $('#search').search({type:'category', source: categoryContent, onSelect: function (e) {
+          console.log(e);
+        }});
+      }
+      function create_personmenu () {
+        render(
+          '#person_col',
+          `<div id="person_menu" class="ui top right pointing dropdown">
+            <i class="teal large user icon"></i>
+            <div class="menu">
+              <div id="startlogin" class="item active"><i class="teal sign-in icon"></i>${meta_data.profile.login[selected_language]}</div>
+              <div class="item"><i class="language icon"></i>${meta_data.profile.language[selected_language]}: ${meta_data.profile.language_select[selected_language]}
+                <div class="menu left">
+                  <div class="item">Suomi</div>
+                  <div class="item">English</div>
+                </div>
+              </div>
+              <div id="startcusserv" class="item"><i class="comments icon"></i>${meta_data.profile.customer_service[selected_language]}</div>
+            </div>
+          </div>`
+        );
+
+        $('#person_menu').dropdown({
+          transition: 'drop',
+          action: 'hide',
+          onChange: function (e, e2, t) {
+            for(var k in meta_data.profile.language_select) {
+              let v = meta_data.profile.language_select[k];
+              if (v.toLowerCase() == e) {
+                selected_language = k;
+                // preloader
+                setTimeout(function () {
+                  create_personmenu();
+                  create_searchaction();
+                  create_filters();
+                }, 500);
+              }
+            }
+            if (t[0].getAttribute("id") == "startlogin") {
+              console.log("Käynnistä login");
+            } else if (t[0].getAttribute("id") == "startcusserv") {
+              console.log("Käynnistä asiakaspalvelu");
+            }
+          }
+        });
+      }
+      function create_filters () {
+        let cities = '';
+        let default_city = meta_data.city.placeholder[selected_language];
+        meta_data.city.cities.forEach((city) => {
+          let active_ = '';
+          if (selected_city == city) {
+            default_city = selected_city;
+            active_ = ' active selected';
+          }
+          let div_ = `<div class="item${active_}">${city}</div>`;
+          cities = cities+div_;
+        });
+
+        let agents = '';
+        let default_agent = meta_data.agent.placeholder[selected_language];
+        meta_data.agent.agents.forEach((agent, i) => {
+          let div_ = `<div data-id="${agent.id}" class="item">
+            <img class="ui avatar image" src="source/${agent.img}">
+            <span>${agent.name}</span>
+          </div>`;
+          agents = agents+div_;
+        });
+
+        let displayNone = '';
+        if(meta_data.agent.agents.length == 0) {
+          displayNone = 'style="display: none;"';
+        }
+
+        render('#filter_row', "");
+
+        render(
+          '#filter_row',
+          `<h1 class="ui header" style="margin-top: 20px; width: 100%; padding: 1rem;">${service[selected_language]}</h1>
+          <div class="mysticky">
+            <div class="mystickyContent">
+              <div class="ui grid" style="background:white; margin: 0px;">
+                <div class="six wide column">
+                  <div>${meta_data.city.placeholder[selected_language]}</div>
+                  <div id="cityselector" class="ui mini dropdown labeled icon button">
+                    <i class="world icon"></i>
+                    <span class="text">${default_city}</span>
+                    <div class="menu">
+                    <div class="ui icon search input">
+                      <i class="search icon"></i>
+                      <input type="text" placeholder="${meta_data.city.search_placeholder[selected_language]}">
+                    </div>
+                    <div class="divider"></div>
+                      ${cities}
+                    </div>
+                  </div>
+                </div>
+                <div class="ten wide column" ${displayNone}>
+                  <div style="width: 100%; text-align: right;">${meta_data.agent.placeholder[selected_language]}</div>
+                  <div style="float: right;" id="agentselector" class="ui mini labeled icon basic dropdown button">
+                    <i class="add user icon"></i>
+                    <span class="text"><img class="ui avatar image" src="source/face.png">
+                        ${meta_data.agent.mainoption[selected_language]}</span>
+                    <div class="menu" style="min-width: 200px;">
+                      <div class="header">
+                        ${meta_data.agent.menuheader[0][selected_language]}
+                      </div>
+                      <div data-id="all" class="item">
+                        <img class="ui avatar image" src="source/face.png">
+                        ${meta_data.agent.mainoption[selected_language]}
+                      </div>
+                      <div class="header">
+                        ${meta_data.agent.menuheader[1][selected_language]}
+                      </div>
+                      ${agents}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          `
+        );
+
+        $('#cityselector').dropdown({
+          onChange: function (e,e2,t) {
+            selected_city = t[0].innerHTML;
+            console.log(selected_city);
+            console.log("NYT PITÄÄ UPDATAA myös palvelija vaihtoehdot");
+          }
+        });
+
+        $('#agentselector').dropdown({
+          onChange: function (e,e2,t) {
+            selected_agent = t[0].getAttribute("data-id");
+            console.log(selected_agent);
+          }
+        });
+      }
+      function create_calendar () {
+        let target = document.getElementById("calendar");
+        let cal_weeks = '';
+        let thisDate = new Date();
+        let activeDateStr = formatDate(thisDate);
+        let thisWeekNum = ISO8601_week_no(thisDate);
+        let thisWeekFirstDate = getDateOfISOWeek(thisWeekNum, thisDate.getFullYear());
+        console.log(thisDate,thisWeekNum, thisWeekFirstDate);
+        let weekDays = '';
+        let prosByseven = 100/7;
+        let currentWeekFirstDate = thisWeekFirstDate;
+        let thisMonthFirstDate = new Date(thisDate.getFullYear(), thisDate.getMonth(), 1);
+        let lastDate = thisWeekFirstDate.addDays(53*7);
+        let monthElms = '';
+        let selectedDayIndex = thisDate.getISODay()-1;
+        console.log(selectedDayIndex);
+        let bigCalActiveIndex = 0;
+        meta_data.calendar.weekDays[selected_language].forEach((d, i) => {
+          let sundayColor = '';
+          if (i==6) {
+            sundayColor = ' color: #00b5ad;';
+          }
+          let weekDay = `<div style="width: ${prosByseven}%; display: inline-block; text-align: center;${sundayColor}">${d}</div>`;
+          weekDays = weekDays+weekDay;
+        });
+
+        console.log(thisMonthFirstDate);
+        let dayIndex = selectedDayIndex;
+        for (let i=0; i<13; i++) {
+          let currentMonthFirstDate = new Date(thisMonthFirstDate);
+          currentMonthFirstDate = new Date(currentMonthFirstDate.setMonth(currentMonthFirstDate.getMonth()+i));
+          let daysInMonth = getDaysInMonth(currentMonthFirstDate.getFullYear(), currentMonthFirstDate.getMonth()+1);
+          let currentMonthFirstDay = currentMonthFirstDate.getISODay();
+          let weeks = [];
+          let currentDayIndex = 0;
+          let currentWeekIndex = 0;
+          let currentMonthIndex = 0;
+          let thisMonthText = meta_data['calendar']['months'][selected_language][currentMonthFirstDate.getMonth()];
+          let thisYear = currentMonthFirstDate.getFullYear();
+          for (let i2=0; i2<(daysInMonth+currentMonthFirstDay-1); i2++) {
+            if(currentWeekIndex == 7) {
+              currentWeekIndex = 0;
+            }
+            if(currentWeekIndex == 0) {
+              weeks.push([]);
+              currentMonthIndex++;
+            }
+            if(currentMonthFirstDay<=currentDayIndex+1) {
+              let day = currentDayIndex-currentMonthFirstDay+2;
+              let currentDate = new Date(thisYear,currentMonthFirstDate.getMonth(),day)
+              let currentDateText = formatDate(currentDate);
+              let thisType = "date"
+              if (currentDate <= thisDate.addDays(-1) || currentDate > lastDate) {
+                thisType = "disabled";
+              }
+              weeks[currentMonthIndex-1].push({dayNo: day, type:thisType, date: currentDateText});
+            } else {
+              weeks[currentMonthIndex-1].push({dayNo: "", type:"empty", date: null});
+            }
+            currentWeekIndex++;
+            currentDayIndex++;
+          }
+          let weekElms = '';
+          weeks.forEach((week) => {
+            let dayElms = '';
+            week.forEach((day) => {
+              let width = 100/7;
+              let thisClass = "normal";
+              let dateStr = '';
+              let dayIndex_ = '';
+              let pointer = '';
+              if(day.type=="disabled" || day.type == "empty") {
+                thisClass = "disabled";
+              } else {
+                dayIndex_ = 'data-dayindex="'+dayIndex+'" ';
+                pointer = ' cursor: pointer;';
+                dayIndex++;
+              }
+              if(day.date) {
+                dateStr = `data-datestr="${day.date}" `;
+              }
+              dayElm = `<div style="width: ${width}%; position: relative; display: inline-block; padding-top: 15px;"><div ${dayIndex_}${dateStr}class="calDay ${thisClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto; position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);${pointer}">${day.dayNo}</div><div style="position: absolute;top: -10px;left: 50%;transform: translateX(-50%);width: 6px;height: 6px;border-radius: 50%;background: gray;"></div></div></div>`;
+              dayElms = dayElms+dayElm;
+            });
+            let weekElm = `<div class="swiper-slide" style="height: auto;">${dayElms}</div>`;
+            weekElms = weekElms+weekElm;
+          });
+          let monthElm = `<div class="swiper-slide ui header"  style="height: auto;padding: 2rem 2rem 0px;margin: 0px;">${thisMonthText} ${thisYear}</div>${weekElms}`;
+          monthElms = monthElms+monthElm;
+          //console.log(monthElm);
+        }
+
+        render(
+          target,
+          `
+          <h4 class="ui header" style="width: 100%; padding: 1rem;">Valitse ajankohta</h4>
+          <div style="width: 100%; height: 20px;">
+          ${weekDays}
+          </div>
+          <div class="swiper" id="week_swiper" style="height: 50px;">
+            <div class="swiper-wrapper">
+            </div>
+          </div>
+          <div class="swiper bigCalendar" style="height: 50px; display: none; overflow: hidden;">
+            <div class="swiper-wrapper">
+              ${monthElms}
+            </div>
+            <div class="swiper-scrollbar"></div>
+          </div>
+          <div class="calWider close" style="height: 24px;position: relative;margin-top: 10px;padding: 10px 0px;cursor: pointer;">
+            <div class="ui tiny horizontal divider header" style="pointer-events:none;">${meta_data.calendar.wider[selected_language][0]}</div>
+          </div>`
+        );
+        console.log(target);
+
+
+
+        let weekSwiper = new Swiper('#week_swiper',{
+          slidesPerView: 7,
+          slidesPerGroup: 7,
+          virtual: {
+            slides: (function () {
+              const slides = [];
+              for (var i = 0; i < (53*7); i++) {
+                let date = thisWeekFirstDate.addDays(i);
+                let day = date.getDate();
+                let monthNum = date.getMonth();
+                let month = meta_data.calendar.months[selected_language][monthNum];
+                let year = date.getFullYear();
+                let dateStr = formatDate(date);
+                let divStyle = 'cursor: pointer;';
+                let dayClass = 'calDay normal';
+                if (date<thisDate) {
+                  if(day!=thisDate.getDate()) {
+                    divStyle = '';
+                    dayClass = 'calDay disabled';
+                  }
+                }
+                if (day==thisDate.getDate() && monthNum == thisDate.getMonth() && year == thisDate.getFullYear()) {
+                  dayClass = 'calDay active';
+                  divStyle = 'color: white;';
+                }
+                if(day == 1) {
+                  day = '1/'+(monthNum+1);
+                }
+                let dayElm = `<div style="${divStyle}"><div style="height: 15px;position: relative;">
+                    <div style="height: 6px;width: 6px;border-radius: 50%;background: gray;position: absolute;transform: translateX(-50%);left: 50%;bottom: 4px;"></div></div>
+                    <div style="text-align: center;"><div style="text-align: center;position: relative;"><div data-datestr="${dateStr}" class="${dayClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${day}</div></div></div></div>
+                  </div>`
+                slides.push(dayElm);
+              }
+              return slides;
+            })(),
+          },
+        });
+        let weekSwiperHor = new Swiper('.swiper.bigCalendar', {
+
+          direction: "vertical",
+          slidesPerView: "auto",
+          freeMode: true,
+          scrollbar: {
+            el: ".swiper-scrollbar",
+            draggable: true
+          },
+          mousewheel: true
+        });
+        Array.from(document.querySelectorAll('.bigCalendar .calDay')).forEach((day, i) => {
+          day.firstChild.addEventListener("click", function (e) {
+            let target = e.target.parentNode;
+            if (target.className == "calDay normal") {
+              if (document.querySelector('.bigCalendar .calDay.active')) {
+                document.querySelector('.bigCalendar .calDay.active').className = "calDay normal";
+              }
+              target.className = "calDay active";
+              let clickedIndex = Number(target.getAttribute("data-dayindex"));
+              selectDay(target.getAttribute("data-datestr"), clickedIndex, false);
+              wider.click();
+            }
+          });
+        });
+
+        weekSwiperHor.on("transitionEnd", function (e) {
+          bigCalActiveIndex = e.activeIndex;
+          setTimeout(function () {
+            weekSwiperHor.slideTo(e.activeIndex,100);
+          }, 5);
+        });
+        weekSwiperHor.on("scroll", function (e) {
+          console.log(e);
+          bigCalActiveIndex = e.activeIndex;
+          weekSwiperHor.slideTo(e.activeIndex,0);
+        });
+        weekSwiper.on("click", function (e) {
+          let slide = e.clickedSlide.querySelector(".calDay");
+
+          if (slide.className == "calDay normal") {
+            if (document.querySelector('#week_swiper .calDay.active')) {
+              document.querySelectorAll('#week_swiper .calDay.active').forEach((calDayActive) => {
+                calDayActive.className = "calDay normal";
+              });
+            }
+            selectDay(slide.getAttribute("data-datestr"), e.clickedIndex, true);
+            slide.className = "calDay active";
+          };
+        });
+        weekSwiper.on('transitionEnd', function() {
+          currentWeekFirstDate = thisWeekFirstDate.addDays(weekSwiper.activeIndex);
+          activateDayInBigCalendar(formatDate(currentWeekFirstDate), 0, "week");
+        });
+
+        activateDayInBigCalendar(formatDate(thisDate), 0, "day");
+
+
+
+        function selectDay (activeDateStr, clickedIndex, updateBigCal) {
+          if (updateBigCal) {
+            activateDayInBigCalendar(activeDateStr, 0, "day");
+          }
+          weekSwiper.virtual.cache = [];
+          weekSwiper.virtual.slides[selectedDayIndex] = weekSwiper.virtual.slides[selectedDayIndex].replace("calDay active","calDay normal");
+          weekSwiper.virtual.slides[clickedIndex] = weekSwiper.virtual.slides[clickedIndex].replace("calDay normal","calDay active");
+          //console.log(weekSwiper.virtual.cache);
+          weekSwiper.virtual.update(true);
+          selectedDayIndex = clickedIndex;
+          showTimelist(activeDateStr);
+        }
+        function activateDayInBigCalendar(datestr, speed, option) {
+          let bigCalDiv = document.querySelector(".bigCalendar");
+          let thisSlideDay = findDivInBigCalendar(datestr);
+          let thisWeekDiv = thisSlideDay.parentElement.parentElement;
+          let slideIndex = getChildElementIndex(thisWeekDiv);
+          if(option == "day") {
+            let activeDay = bigCalDiv.querySelector(".calDay.active");
+            if(activeDay) {
+              activeDay.className = "calDay normal";
+            }
+            thisSlideDay.className = "calDay active";
+          }
+          weekSwiperHor.slideTo(slideIndex,speed);
+        }
+        function findDivInBigCalendar (dateStr) {
+          let dayDiv = document.querySelector('.bigCalendar [data-datestr="'+dateStr+'"]');
+          return dayDiv;
+        }
+        function showTimelist (date) {
+          console.log("open timelist", date);
+
+          // tähän lista toiminnnot
+
+        }
+
+        let wider = target.querySelector(".calWider");
+        wider.addEventListener("click", function (e) {
+          if(e.target.className == "calWider close") {
+            e.target.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][1];
+            activateDayInBigCalendar(formatDate(currentWeekFirstDate), 0, "week");
+            e.target.className = "calWider open";
+            target.querySelector(".swiper").style.display = "none";
+            target.querySelector(".bigCalendar").style.display = "";
+            setTimeout(function (){
+              target.querySelector(".bigCalendar").style.height = "250px";
+            }, 1);
+          } else {
+            target.querySelector(".bigCalendar").style.height = "50px";
+            e.target.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][0];
+            setTimeout(function () {
+              target.querySelector(".swiper").style.display = "";
+              target.querySelector(".bigCalendar").style.display = "none";
+              setTimeout(function () {
+                weekSwiper.slideTo(selectedDayIndex,300);
+              }, 50);
+            }, 500);
+            e.target.className = "calWider close";
+          }
+        });
+      }
+
+
+      function sticky_func () {
+        let stickies = document.querySelectorAll(".mysticky");
+        stickies.forEach((elm, i) => {
+          let target = elm.querySelector(".mystickyContent");
+          let offsetTop = 0;
+          if(elm.getBoundingClientRect().top <= 0) {
+            target.style.position = "fixed";
+            target.style.top = offsetTop;
+            target.style.width = elm.getBoundingClientRect().width;
+            elm.style.height = target.getBoundingClientRect().height;
+          } else {
+            target.style.position = "";
+            target.style.top = "";
+            target.style.width = "";
+            elm.style.height = "";
+          }
+        });
+      }
+      window.addEventListener("scroll", function (e) {
+        sticky_func ();
+
+      });
+      window.addEventListener("resize", function (e) {
+        sticky_func ();
+      });
+
+    </script>
+  </body>
+<html>
