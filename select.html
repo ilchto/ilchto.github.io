@@ -59,7 +59,7 @@
       }
       .mysticky {
         position: relative;
-        z-index: 100;
+        /*z-index: 100;*/
       }
       #calendar {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -98,6 +98,7 @@
       <div id="filter_row"></div>
       <div class="mysticky"><div class="mystickyContent"><div id="calendar" style="padding: 1rem 0px;background: rgb(231 240 239);"></div></div></div>
       <div id="timelist">
+        <div></div>
         <h4>Scroll Container</h4>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus,
@@ -258,7 +259,7 @@
             fi: ['Tammikuu','Helmikuu','Maalis','Huhtikuu','Toukokuu','Kesäkuu','Heinäkuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'],
             en: ['January','February','March','April','May','June','July','August','September','October','November','December']
           },
-          weekWords: {fi:['Tänään','Huomenna','Ylihuomenna','Tämän viikon','Ensi viikon'],en:['Today','Tomorrow','Day after tomorrow','This week','Next week']},
+          weekWords: {fi:['Tänään','Huomenna','Tämän viikon','Ensi viikon'],en:['Today','Tomorrow','This week','Next week']},
           wider: {fi: ["Laajenna","Supista"], en: ["Open","Close"]}
         }
       };
@@ -827,17 +828,15 @@
           dayStr = meta_data.calendar.weekWords[selected_language][0];
         } else if(diffDays == 1) {
           dayStr = meta_data.calendar.weekWords[selected_language][1];
-        } else if(diffDays == 2) {
-          dayStr = meta_data.calendar.weekWords[selected_language][2];
         } else if(diffWeek == 0) {
-          dayStr = meta_data.calendar.weekWords[selected_language][3]+" "+weekDayStr;
+          dayStr = meta_data.calendar.weekWords[selected_language][2]+" "+weekDayStr;
         } else if(diffWeek == 1) {
-          dayStr = meta_data.calendar.weekWords[selected_language][4]+" "+weekDayStr;
+          dayStr = meta_data.calendar.weekWords[selected_language][3]+" "+weekDayStr;
         } else {
           dayStr = weekDayStr+" "+thisDate.getDate()+" "+monthStr+" "+fullYear;
         }
         console.log(thisDate.getDate(), monthStr, weekDayStr, fullYear, thisWeekNum, " eroja päivissä: ", diffDays, " eroja viikoissa: ", diffWeek);
-        render('#timelist',
+        render('#timelist :first-child',
         `<h2 class="ui header" style="margin-top: 2rem;">${dayStr}</h2>
 
         `);
