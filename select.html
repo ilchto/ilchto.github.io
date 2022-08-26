@@ -812,6 +812,356 @@
           wider.className = "calWider close";
         }
       }
+      function create_calendar () {
+        let target = document.getElementById("calendar");
+        let cal_weeks = '';
+        let thisDate = new Date();
+        let activeDateStr = formatDate(thisDate);
+        let thisWeekNum = ISO8601_week_no(thisDate);
+        let thisWeekFirstDate = getDateOfISOWeek(thisWeekNum, thisDate.getFullYear());
+        console.log(thisDate,thisWeekNum, thisWeekFirstDate);
+        let weekDays = '';
+        let prosByseven = 100/7;
+        let currentWeekFirstDate = thisWeekFirstDate;
+        let thisMonthFirstDate = new Date(thisDate.getFullYear(), thisDate.getMonth(), 1);
+        let lastDate = thisWeekFirstDate.addDays(53*7);
+        let monthElms = '';
+        let selectedDayIndex = thisDate.getISODay()-1;
+        console.log(selectedDayIndex);
+        let bigCalActiveIndex = 0;
+        meta_data.calendar.weekDays[selected_language].forEach((d, i) => {
+          let sundayColor = '';
+          if (i==6) {
+            sundayColor = ' color: #00b5ad;';
+          }
+          let weekDay = `<div style="width: ${prosByseven}%; display: inline-block; text-align: center;${sundayColor}">${d}</div>`;
+          weekDays = weekDays+weekDay;
+        });
+
+        console.log(thisMonthFirstDate);
+        let dayIndex = selectedDayIndex;
+        for (let i=0; i<13; i++) {
+          let currentMonthFirstDate = new Date(thisMonthFirstDate);
+          currentMonthFirstDate = new Date(currentMonthFirstDate.setMonth(currentMonthFirstDate.getMonth()+i));
+          let daysInMonth = getDaysInMonth(currentMonthFirstDate.getFullYear(), currentMonthFirstDate.getMonth()+1);
+          let currentMonthFirstDay = currentMonthFirstDate.getISODay();
+          let weeks = [];
+          let currentDayIndex = 0;
+          let currentWeekIndex = 0;
+          let currentMonthIndex = 0;
+          let thisMonthText = meta_data['calendar']['months'][selected_language][currentMonthFirstDate.getMonth()];
+          let thisYear = currentMonthFirstDate.getFullYear();
+          for (let i2=0; i2<(daysInMonth+currentMonthFirstDay-1); i2++) {
+            if(currentWeekIndex == 7) {
+              currentWeekIndex = 0;
+            }
+            if(currentWeekIndex == 0) {
+              weeks.push([]);
+              currentMonthIndex++;
+            }
+            if(currentMonthFirstDay<=currentDayIndex+1) {
+              let day = currentDayIndex-currentMonthFirstDay+2;
+              let currentDate = new Date(thisYear,currentMonthFirstDate.getMonth(),day)
+              let currentDateText = formatDate(currentDate);
+              let thisType = "date"
+              if (currentDate <= thisDate.addDays(-1) || currentDate > lastDate) {
+                thisType = "disabled";
+              }
+              weeks[currentMonthIndex-1].push({dayNo: day, type:thisType, date: currentDateText});
+            } else {
+              weeks[currentMonthIndex-1].push({dayNo: "", type:"empty", date: null});
+            }
+            currentWeekIndex++;
+            currentDayIndex++;
+          }
+          let weekElms = '';
+          weeks.forEach((week) => {
+            let dayElms = '';
+            week.forEach((day) => {
+              let width = 100/7;
+              let thisClass = "normal";
+              let dateStr = '';
+              let dayIndex_ = '';
+              let pointer = '';
+              if(day.type=="disabled" || day.type == "empty") {
+                thisClass = "disabled";
+              } else {
+                dayIndex_ = 'data-dayindex="'+dayIndex+'" ';
+                pointer = ' cursor: pointer;';
+                dayIndex++;
+              }
+              if(day.date) {
+                dateStr = `data-datestr="${day.date}" `;
+              }
+              dayElm = `<div style="width: ${width}%; position: relative; display: inline-block; padding-top: 15px;"><div ${dayIndex_}${dateStr}class="calDay ${thisClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto; position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);${pointer}">${day.dayNo}</div><div style="position: absolute;top: -10px;left: 50%;transform: translateX(-50%);width: 6px;height: 6px;border-radius: 50%;background: gray;"></div></div></div>`;
+              dayElms = dayElms+dayElm;
+            });
+            let weekElm = `<div style="height: auto;">${dayElms}</div>`;
+            weekElms = weekElms+weekElm;
+          });
+          let monthElm = `<div class="ui header"  style="height: auto;padding: 2rem 2rem 0px;margin: 0px;">${thisMonthText} ${thisYear}</div>${weekElms}`;
+          monthElms = monthElms+monthElm;
+          //console.log(monthElm);
+        }
+
+        render(
+          target,
+          `
+          <!--<h4 class="ui header" style="width: 100%; padding: 1rem;">Valitse ajankohta</h4>-->
+          <div style="width: 100%; height: 20px;">
+          ${weekDays}
+          </div>
+          <div class="swiper" id="week_swiper" style="height: 50px;">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+          <div class="bigCalendar" style="height: 50px; display: none; overflow: auto;">
+            <div>
+              ${monthElms}
+            </div>
+            <div class="swiper-scrollbar"></div>
+          </div>
+          <div class="calWider close" style="height: 24px;position: relative;margin-top: 10px;padding: 10px 0px;cursor: pointer;">
+            <div class="ui tiny horizontal divider header" style="pointer-events:none;">${meta_data.calendar.wider[selected_language][0]}</div>
+          </div>`
+        );
+
+        if(isMobile()) {
+          console.log("nuolet pois");
+          target.querySelector('.swiper-button-next').style.display = "none";
+          target.querySelector('.swiper-button-prev').style.display = "none";
+        }
+
+        let weekSwiper = new Swiper('#week_swiper',{
+          slidesPerView: 7,
+          slidesPerGroup: 7,
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+          virtual: {
+            slides: (function () {
+              const slides = [];
+              for (var i = 0; i < (53*7); i++) {
+                let date = thisWeekFirstDate.addDays(i);
+                let day = date.getDate();
+                let monthNum = date.getMonth();
+                let month = meta_data.calendar.months[selected_language][monthNum];
+                let year = date.getFullYear();
+                let dateStr = formatDate(date);
+                let divStyle = 'cursor: pointer;';
+                let dayClass = 'calDay normal';
+                if (date<thisDate) {
+                  if(day!=thisDate.getDate()) {
+                    divStyle = '';
+                    dayClass = 'calDay disabled';
+                  }
+                }
+                if (day==thisDate.getDate() && monthNum == thisDate.getMonth() && year == thisDate.getFullYear()) {
+                  dayClass = 'calDay active';
+                  divStyle = 'color: white;';
+                }
+                if(day == 1) {
+                  day = '1/'+(monthNum+1);
+                }
+                let dayElm = `<div style="${divStyle}"><div style="height: 15px;position: relative;">
+                    <div style="height: 6px;width: 6px;border-radius: 50%;background: gray;position: absolute;transform: translateX(-50%);left: 50%;bottom: 4px;"></div></div>
+                    <div style="text-align: center;"><div style="text-align: center;position: relative;"><div data-datestr="${dateStr}" class="${dayClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${day}</div></div></div></div>
+                  </div>`
+                slides.push(dayElm);
+              }
+              return slides;
+            })(),
+          },
+        });
+
+        Array.from(document.querySelectorAll('.bigCalendar .calDay')).forEach((day, i) => {
+          day.firstChild.addEventListener("click", function (e) {
+            let target = e.target.parentNode;
+            if (target.className == "calDay normal") {
+              if (document.querySelector('.bigCalendar .calDay.active')) {
+                document.querySelector('.bigCalendar .calDay.active').className = "calDay normal";
+              }
+              target.className = "calDay active";
+              let clickedIndex = Number(target.getAttribute("data-dayindex"));
+              selectDay(target.getAttribute("data-datestr"), clickedIndex, false);
+              wider.click();
+            }
+          });
+        });
+
+
+        weekSwiper.on("click", function (e) {
+          let slide = e.clickedSlide.querySelector(".calDay");
+
+          if (slide.className == "calDay normal") {
+            if (document.querySelector('#week_swiper .calDay.active')) {
+              document.querySelectorAll('#week_swiper .calDay.active').forEach((calDayActive) => {
+                calDayActive.className = "calDay normal";
+              });
+            }
+            selectDay(slide.getAttribute("data-datestr"), e.clickedIndex, true);
+            slide.className = "calDay active";
+          };
+        });
+        weekSwiper.on('transitionEnd', function() {
+          currentWeekFirstDate = thisWeekFirstDate.addDays(weekSwiper.activeIndex);
+          activateDayInBigCalendar(formatDate(currentWeekFirstDate), 0, "week");
+        });
+
+        activateDayInBigCalendar(formatDate(thisDate), 0, "day");
+
+
+
+        function selectDay (activeDateStr, clickedIndex, updateBigCal) {
+          if (updateBigCal) {
+            activateDayInBigCalendar(activeDateStr, 0, "day");
+          }
+          weekSwiper.virtual.cache = [];
+          weekSwiper.virtual.slides[selectedDayIndex] = weekSwiper.virtual.slides[selectedDayIndex].replace("calDay active","calDay normal");
+          weekSwiper.virtual.slides[clickedIndex] = weekSwiper.virtual.slides[clickedIndex].replace("calDay normal","calDay active");
+          //console.log(weekSwiper.virtual.cache);
+          weekSwiper.virtual.update(true);
+          selectedDayIndex = clickedIndex;
+          if(!updateBigCal) {
+            closeCal();
+          }
+          showTimelist(activeDateStr);
+        }
+        function activateDayInBigCalendar(datestr, speed, option) {
+          let bigCalDiv = document.querySelector(".bigCalendar");
+          let thisSlideDay = findDivInBigCalendar(datestr);
+          let thisWeekDiv = thisSlideDay.parentElement.parentElement;
+          let slideIndex = getChildElementIndex(thisWeekDiv);
+          if(option == "day") {
+            let activeDay = bigCalDiv.querySelector(".calDay.active");
+            if(activeDay) {
+              activeDay.className = "calDay normal";
+            }
+            thisSlideDay.className = "calDay active";
+          }
+          //weekSwiperHor.slideTo(slideIndex,speed);
+        }
+        function findDivInBigCalendar (dateStr) {
+          let dayDiv = document.querySelector('.bigCalendar [data-datestr="'+dateStr+'"]');
+          return dayDiv;
+        }
+
+        let wider = target.querySelector(".calWider");
+        let bigCal = target.querySelector(".bigCalendar");
+        let maxHeight = 300;
+        let minHeight = 50;
+        let startHeight;
+        let clickOpen = false;
+        let clickOpenDrag = false;
+        let allowMouse = true;
+        let startState = "close";
+        let startY;
+        wider.addEventListener("touchstart",dragStart);
+        wider.addEventListener("mousedown",dragStart);
+
+        function dragStart (e) {
+          if(e.type=="touchstart" || allowMouse) {
+            window.addEventListener("touchmove", drag, {passive: false});
+            window.addEventListener("mousemove", drag);
+            window.addEventListener("touchend", dragEnd);
+            window.addEventListener("mouseup", dragEnd);
+            target.querySelector(".swiper").style.display = "none";
+            bigCal.style.display = "";
+            bigCal.classList.add("dragging");
+            startHeight = bigCal.getBoundingClientRect().height;
+            clickOpen = true;
+            clickOpenDrag = false;
+            setTimeout(function () {
+              clickOpen = false
+              clickOpenDrag = true;
+            }, 400);
+            if(wider.className == "calWider close") {
+              startState = "close";
+            } else {
+              startState = "open";
+            }
+          }
+          if(e.type == "touchstart") {
+            allowMouse = false;
+            startY = e.touches[0].clientY;
+          } else {
+            startY = e.clientY;
+          }
+        }
+        function drag (e) {
+          let y;
+          if(e.type == "touchmove") {
+            y = e.touches[0].clientY;
+          } else {
+            y = e.clientY;
+          }
+          let y_ = y-startY;
+          let thisHeight = Math.max(minHeight,Math.min(maxHeight, (y_+startHeight)));
+          bigCal.style.height = thisHeight+"px";
+          if(clickOpenDrag) {
+            if(startState == "close") {
+              if(y_>50) {
+                clickOpen = true;
+              } else {
+                clickOpen = false;
+              }
+            } else {
+              if(y_<-50) {
+                clickOpen = true;
+              } else {
+                clickOpen = false;
+              }
+            }
+          }
+
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+        function dragEnd (e) {
+          bigCal.classList.remove("dragging");
+          window.removeEventListener("touchmove", drag);
+          window.removeEventListener("mousemove", drag);
+          window.removeEventListener("touchend", dragEnd);
+          window.removeEventListener("mouseup", dragEnd);
+          if (clickOpen) {
+            if(wider.className == "calWider close") {
+              openCal();
+            } else {
+              closeCal();
+            }
+          } else {
+            if(wider.className == "calWider close") {
+              closeCal();
+            } else {
+              openCal();
+            }
+          }
+
+        }
+        function openCal() {
+          wider.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][1];
+          activateDayInBigCalendar(formatDate(currentWeekFirstDate), 0, "week");
+          wider.className = "calWider open";
+          setTimeout(function (){
+            bigCal.style.height = maxHeight+"px";
+          }, 1);
+        }
+        function closeCal() {
+          bigCal.style.height = minHeight+"px";
+          wider.querySelector(".header").innerHTML = meta_data.calendar.wider[selected_language][0];
+          setTimeout(function () {
+            target.querySelector(".swiper").style.display = "";
+            bigCal.style.display = "none";
+            setTimeout(function () {
+              weekSwiper.slideTo(selectedDayIndex,300);
+            }, 50);
+          }, 300);
+          wider.className = "calWider close";
+        }
+      }
       function showTimelist (date) {
         console.log("open timelist", date);
         let today = new Date(formatDate(new Date()));
