@@ -52,7 +52,7 @@
         color: #cacaca;
       }
       .bigCalendar {
-        transition: height 0.5s;
+        transition: height 0.3s;
       }
       .bigCalendar.dragging {
         transition: height 0.0s;
@@ -60,6 +60,31 @@
       .mysticky {
         position: relative;
         z-index: 100;
+      }
+      #calendar {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+      }
+      .swiper-button-next {
+        right: 0px;
+      }
+      .swiper-button-next:after {
+        font-size: 26px;
+        color: #00b5ad;
+      }
+      .swiper-button-prev {
+        left: 0px;
+      }
+      .swiper-button-prev:after {
+        font-size: 26px;
+        color: #00b5ad;
+      }
+      #timelist {
+        padding: 1rem;
       }
     </style>
   </head>
@@ -71,8 +96,8 @@
     <script type="text/javascript" src="js/tools.js"></script>
     <div id="content">
       <div id="filter_row"></div>
-      <div id="calendar" style="padding: 1rem 0px;background: rgb(231 240 239);"></div>
-      <div>
+      <div class="mysticky"><div class="mystickyContent"><div id="calendar" style="padding: 1rem 0px;background: rgb(231 240 239);"></div></div></div>
+      <div id="timelist">
         <h4>Scroll Container</h4>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus,
@@ -228,10 +253,12 @@
         },
         calendar: {
           weekDays: {fi: ['M','T','K','T','P','L','S'], en: ['M','T','W','T','F','S','S']},
+          weekDaysFull: {fi: ['Maanantai','Tiistai','Keskiviikko','Torstai','Perjantai','Lauantai','Sunnuntai'], en: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']},
           months: {
             fi: ['Tammikuu','Helmikuu','Maalis','Huhtikuu','Toukokuu','Kesäkuu','Heinäkuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'],
             en: ['January','February','March','April','May','June','July','August','September','October','November','December']
           },
+          weekWords: {fi:['Tänään','Huomenna','Ylihuomenna','Tämän viikon','Ensi viikon'],en:['Today','Tomorrow','Day after tomorrow','This week','Next week']},
           wider: {fi: ["Laajenna","Supista"], en: ["Open","Close"]}
         }
       };
@@ -245,6 +272,7 @@
       create_personmenu ();
       create_filters ();
       create_calendar ();
+      showTimelist(formatDate(new Date()));
 
       function create_searchaction () {
         render(
@@ -353,8 +381,8 @@
         render(
           '#filter_row',
           `<h1 class="ui header" style="margin-top: 20px; width: 100%; padding: 1rem;">${service[selected_language]}</h1>
-          <div class="mysticky">
-            <div class="mystickyContent">
+          <!--<div class="mysticky">
+            <div class="mystickyContent">-->
               <div class="ui grid" style="background:white; margin: 0px;">
                 <div class="six wide column">
                   <div>${meta_data.city.placeholder[selected_language]}</div>
@@ -393,8 +421,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            <!--</div>
+          </div>-->
           `
         );
 
@@ -508,13 +536,15 @@
         render(
           target,
           `
-          <h4 class="ui header" style="width: 100%; padding: 1rem;">Valitse ajankohta</h4>
+          <!--<h4 class="ui header" style="width: 100%; padding: 1rem;">Valitse ajankohta</h4>-->
           <div style="width: 100%; height: 20px;">
           ${weekDays}
           </div>
           <div class="swiper" id="week_swiper" style="height: 50px;">
             <div class="swiper-wrapper">
             </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
           </div>
           <div class="swiper bigCalendar" style="height: 50px; display: none; overflow: hidden;">
             <div class="swiper-wrapper">
@@ -526,13 +556,20 @@
             <div class="ui tiny horizontal divider header" style="pointer-events:none;">${meta_data.calendar.wider[selected_language][0]}</div>
           </div>`
         );
-        console.log(target);
 
-
+        if(isMobile()) {
+          console.log("nuolet pois");
+          target.querySelector('.swiper-button-next').style.display = "none";
+          target.querySelector('.swiper-button-prev').style.display = "none";
+        }
 
         let weekSwiper = new Swiper('#week_swiper',{
           slidesPerView: 7,
           slidesPerGroup: 7,
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
           virtual: {
             slides: (function () {
               const slides = [];
@@ -637,6 +674,9 @@
           //console.log(weekSwiper.virtual.cache);
           weekSwiper.virtual.update(true);
           selectedDayIndex = clickedIndex;
+          if(!updateBigCal) {
+            closeCal();
+          }
           showTimelist(activeDateStr);
         }
         function activateDayInBigCalendar(datestr, speed, option) {
@@ -657,12 +697,6 @@
           let dayDiv = document.querySelector('.bigCalendar [data-datestr="'+dateStr+'"]');
           return dayDiv;
         }
-        function showTimelist (date) {
-          console.log("open timelist", date);
-
-          // tähän lista toiminnnot
-
-        }
 
         let wider = target.querySelector(".calWider");
         let bigCal = target.querySelector(".bigCalendar");
@@ -670,6 +704,7 @@
         let minHeight = 50;
         let startHeight;
         let clickOpen = false;
+        let clickOpenDrag = false;
         let allowMouse = true;
         let startState = "close";
         let startY;
@@ -687,8 +722,10 @@
             bigCal.classList.add("dragging");
             startHeight = bigCal.getBoundingClientRect().height;
             clickOpen = true;
+            clickOpenDrag = false;
             setTimeout(function () {
-              clickOpen = false;
+              clickOpen = false
+              clickOpenDrag = true;
             }, 400);
             if(wider.className == "calWider close") {
               startState = "close";
@@ -713,19 +750,22 @@
           let y_ = y-startY;
           let thisHeight = Math.max(minHeight,Math.min(maxHeight, (y_+startHeight)));
           bigCal.style.height = thisHeight+"px";
-          if(startState == "close") {
-            if(y_>50) {
-              clickOpen = true;
+          if(clickOpenDrag) {
+            if(startState == "close") {
+              if(y_>50) {
+                clickOpen = true;
+              } else {
+                clickOpen = false;
+              }
             } else {
-              clickOpen = false;
-            }
-          } else {
-            if(y_<-50) {
-              clickOpen = true;
-            } else {
-              clickOpen = false;
+              if(y_<-50) {
+                clickOpen = true;
+              } else {
+                clickOpen = false;
+              }
             }
           }
+
           e.preventDefault();
           e.stopImmediatePropagation();
         }
@@ -736,21 +776,15 @@
           window.removeEventListener("touchend", dragEnd);
           window.removeEventListener("mouseup", dragEnd);
           if (clickOpen) {
-            console.log("GO");
             if(wider.className == "calWider close") {
-              console.log("open");
               openCal();
             } else {
-              console.log("close");
               closeCal();
             }
           } else {
-            console.log("NOT GO");
             if(wider.className == "calWider close") {
-              console.log("open");
               closeCal();
             } else {
-              console.log("close");
               openCal();
             }
           }
@@ -773,11 +807,43 @@
             setTimeout(function () {
               weekSwiper.slideTo(selectedDayIndex,300);
             }, 50);
-          }, 500);
+          }, 300);
           wider.className = "calWider close";
         }
       }
+      function showTimelist (date) {
+        console.log("open timelist", date);
+        let today = new Date(formatDate(new Date()));
+        let thisDate = new Date(date);
+        let monthStr = meta_data.calendar.months[selected_language][thisDate.getMonth()];
+        let weekDayStr = meta_data.calendar.weekDaysFull[selected_language][thisDate.getISODay()-1];
+        let fullYear = thisDate.getFullYear();
+        let thisWeekNum = ISO8601_week_no(thisDate);
+        let diffTime = Math.abs(thisDate - today);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        let diffWeek = thisWeekNum - ISO8601_week_no(today);
+        let dayStr = '';
+        if(diffDays == 0) {
+          dayStr = meta_data.calendar.weekWords[selected_language][0];
+        } else if(diffDays == 1) {
+          dayStr = meta_data.calendar.weekWords[selected_language][1];
+        } else if(diffDays == 2) {
+          dayStr = meta_data.calendar.weekWords[selected_language][2];
+        } else if(diffWeek == 0) {
+          dayStr = meta_data.calendar.weekWords[selected_language][3]+" "+weekDayStr;
+        } else if(diffWeek == 1) {
+          dayStr = meta_data.calendar.weekWords[selected_language][4]+" "+weekDayStr;
+        } else {
+          dayStr = weekDayStr+" "+thisDate.getDate()+" "+monthStr+" "+fullYear;
+        }
+        console.log(thisDate.getDate(), monthStr, weekDayStr, fullYear, thisWeekNum, " eroja päivissä: ", diffDays, " eroja viikoissa: ", diffWeek);
+        render('#timelist',
+        `<h2 class="ui header" style="margin-top: 2rem;">${dayStr}</h2>
 
+        `);
+        // tähän lista toiminnnot
+
+      }
 
       function sticky_func () {
         let stickies = document.querySelectorAll(".mysticky");
@@ -804,6 +870,13 @@
       window.addEventListener("resize", function (e) {
         sticky_func ();
       });
+      function isMobile () {
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
 
     </script>
   </body>
