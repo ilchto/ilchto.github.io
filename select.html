@@ -280,13 +280,24 @@
           },
           weekWords: {fi:['Tänään','Huomenna','Tämän viikon','Ensi viikon'],en:['Today','Tomorrow','This week','Next week']},
           wider: {fi: ["Laajenna","Supista"], en: ["Open","Close"]}
-        }
+        },
+        daysAvailable: {},
+        dayTimes: []
       };
       let selected_language = "fi";
       let login = false;
       let selected_city = "Turku";
       let selected_agent = "all";
       let service = {fi: "Kodin perussiivous", en: "Basic house cleaning"};
+
+      //simulate daysAvailable
+      let options = ["free","almost full","full"];
+      let startDate = new Date();
+      for(var i=0; i<100; i++) {
+        let thisDate = startDate.addDays(i);
+        let thisDateStr = formatDate(thisDate);
+        meta_data.daysAvailable[thisDateStr] = options[Math.floor(Math.random() * options.length)];
+      }
 
       create_searchaction ();
       create_personmenu ();
@@ -912,7 +923,7 @@
               if(day.date) {
                 dateStr = `data-datestr="${day.date}" `;
               }
-              dayElm = `<div style="width: ${width}%; position: relative; display: inline-block; padding-top: 15px;"><div ${dayIndex_}${dateStr}class="calDay ${thisClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto; position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);${pointer}">${day.dayNo}</div><div style="position: absolute;top: -10px;left: 50%;transform: translateX(-50%);width: 6px;height: 6px;border-radius: 50%;background: gray;"></div></div></div>`;
+              dayElm = `<div style="width: ${width}%; position: relative; display: inline-block; padding-top: 15px;"><div ${dayIndex_}${dateStr}class="calDay ${thisClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto; position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);${pointer}">${day.dayNo}</div><div style="position: absolute;top: -10px;left: 50%;transform: translateX(-50%);width: 6px;height: 6px;border-radius: 50%;"></div></div></div>`;
               dayElms = dayElms+dayElm;
             });
             let weekElm = `<div style="height: auto; scroll-snap-align: start;">${dayElms}</div>`;
@@ -1057,8 +1068,7 @@
             }
             thisSlideDay.className = "calDay active";
           }
-          thisWeekDiv.scrollIntoView();
-          //weekSwiperHor.slideTo(slideIndex,speed);
+          thisWeekDiv.parentElement.scrollTop = thisWeekDiv.offsetTop;
         }
         function findDivInBigCalendar (dateStr) {
           let dayDiv = document.querySelector('.bigCalendar [data-datestr="'+dateStr+'"]');
@@ -1247,6 +1257,9 @@
           window.removeEventListener("mouseup", scrollBardragEnd);
           modifyScrollBarDisabled = false;
         }
+
+      }
+      function days_available () {
 
       }
       function showTimelist (date) {
