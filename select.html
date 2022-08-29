@@ -86,6 +86,25 @@
       #timelist {
         padding: 1rem;
       }
+      .bigCal-scrollbar {
+        position: absolute;
+        height: 100%;
+        width: 8px;
+        right: 0px;
+        top: 0px;
+        background: rgb(0 0 0 / 10%);
+        border-radius: 5px;
+      }
+      .bigCal-bar {
+        position: absolute;
+        width: 100%;
+        background: gray;
+        border-radius: 5px;
+        left: 0px;
+        top: 0px;
+        height: 50px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -442,7 +461,7 @@
           }
         });
       }
-      function create_calendar () {
+      /*function create_calendar () {
         let target = document.getElementById("calendar");
         let cal_weeks = '';
         let thisDate = new Date();
@@ -811,7 +830,7 @@
           }, 300);
           wider.className = "calWider close";
         }
-      }
+      }*/
       function create_calendar () {
         let target = document.getElementById("calendar");
         let cal_weeks = '';
@@ -896,10 +915,10 @@
               dayElm = `<div style="width: ${width}%; position: relative; display: inline-block; padding-top: 15px;"><div ${dayIndex_}${dateStr}class="calDay ${thisClass}" style="width: 30px;height: 30px;border-radius: 50%;margin: auto; position: relative;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);${pointer}">${day.dayNo}</div><div style="position: absolute;top: -10px;left: 50%;transform: translateX(-50%);width: 6px;height: 6px;border-radius: 50%;background: gray;"></div></div></div>`;
               dayElms = dayElms+dayElm;
             });
-            let weekElm = `<div style="height: auto;">${dayElms}</div>`;
+            let weekElm = `<div style="height: auto; scroll-snap-align: start;">${dayElms}</div>`;
             weekElms = weekElms+weekElm;
           });
-          let monthElm = `<div class="ui header"  style="height: auto;padding: 2rem 2rem 0px;margin: 0px;">${thisMonthText} ${thisYear}</div>${weekElms}`;
+          let monthElm = `<div class="ui header"  style="height: auto;padding: 2rem 2rem 1rem;margin: 0px;">${thisMonthText} ${thisYear}</div>${weekElms}`;
           monthElms = monthElms+monthElm;
           //console.log(monthElm);
         }
@@ -917,11 +936,11 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
           </div>
-          <div class="bigCalendar" style="height: 50px; display: none; overflow: auto;">
-            <div>
+          <div class="bigCalendar" style="height: 50px; display: none; position: relative; overflow: hidden;">
+            <div class="bigCal-rows hiddenScrollbar" style="overflow: auto; scroll-snap-type: y mandatory; position: relative; height: 100%;">
               ${monthElms}
             </div>
-            <div class="swiper-scrollbar"></div>
+            <div class="bigCal-scrollbar"><div class="bigCal-bar"></div></div>
           </div>
           <div class="calWider close" style="height: 24px;position: relative;margin-top: 10px;padding: 10px 0px;cursor: pointer;">
             <div class="ui tiny horizontal divider header" style="pointer-events:none;">${meta_data.calendar.wider[selected_language][0]}</div>
@@ -929,7 +948,6 @@
         );
 
         if(isMobile()) {
-          console.log("nuolet pois");
           target.querySelector('.swiper-button-next').style.display = "none";
           target.querySelector('.swiper-button-prev').style.display = "none";
         }
@@ -992,7 +1010,6 @@
           });
         });
 
-
         weekSwiper.on("click", function (e) {
           let slide = e.clickedSlide.querySelector(".calDay");
 
@@ -1012,8 +1029,6 @@
         });
 
         activateDayInBigCalendar(formatDate(thisDate), 0, "day");
-
-
 
         function selectDay (activeDateStr, clickedIndex, updateBigCal) {
           if (updateBigCal) {
@@ -1042,11 +1057,13 @@
             }
             thisSlideDay.className = "calDay active";
           }
+          thisWeekDiv.scrollIntoView();
           //weekSwiperHor.slideTo(slideIndex,speed);
         }
         function findDivInBigCalendar (dateStr) {
           let dayDiv = document.querySelector('.bigCalendar [data-datestr="'+dateStr+'"]');
           return dayDiv;
+          console.log(dayDiv);
         }
 
         let wider = target.querySelector(".calWider");
@@ -1059,18 +1076,19 @@
         let allowMouse = true;
         let startState = "close";
         let startY;
-        wider.addEventListener("touchstart",dragStart);
-        wider.addEventListener("mousedown",dragStart);
+        wider.addEventListener("touchstart",openCaldragStart);
+        wider.addEventListener("mousedown",openCaldragStart);
 
-        function dragStart (e) {
+        function openCaldragStart (e) {
           if(e.type=="touchstart" || allowMouse) {
-            window.addEventListener("touchmove", drag, {passive: false});
-            window.addEventListener("mousemove", drag);
-            window.addEventListener("touchend", dragEnd);
-            window.addEventListener("mouseup", dragEnd);
+            window.addEventListener("touchmove", openCaldrag, {passive: false});
+            window.addEventListener("mousemove", openCaldrag);
+            window.addEventListener("touchend", openCaldragEnd);
+            window.addEventListener("mouseup", openCaldragEnd);
             target.querySelector(".swiper").style.display = "none";
             bigCal.style.display = "";
             bigCal.classList.add("dragging");
+            hideScrollbar ();
             startHeight = bigCal.getBoundingClientRect().height;
             clickOpen = true;
             clickOpenDrag = false;
@@ -1091,7 +1109,7 @@
             startY = e.clientY;
           }
         }
-        function drag (e) {
+        function openCaldrag (e) {
           let y;
           if(e.type == "touchmove") {
             y = e.touches[0].clientY;
@@ -1120,12 +1138,12 @@
           e.preventDefault();
           e.stopImmediatePropagation();
         }
-        function dragEnd (e) {
+        function openCaldragEnd (e) {
           bigCal.classList.remove("dragging");
-          window.removeEventListener("touchmove", drag);
-          window.removeEventListener("mousemove", drag);
-          window.removeEventListener("touchend", dragEnd);
-          window.removeEventListener("mouseup", dragEnd);
+          window.removeEventListener("touchmove", openCaldrag);
+          window.removeEventListener("mousemove", openCaldrag);
+          window.removeEventListener("touchend", openCaldragEnd);
+          window.removeEventListener("mouseup", openCaldragEnd);
           if (clickOpen) {
             if(wider.className == "calWider close") {
               openCal();
@@ -1148,6 +1166,10 @@
           setTimeout(function (){
             bigCal.style.height = maxHeight+"px";
           }, 1);
+          let anim = setInterval(modifyScrollBar, 17);
+          setTimeout(function () {
+            clearTimeout(anim);
+          },300);
         }
         function closeCal() {
           bigCal.style.height = minHeight+"px";
@@ -1161,6 +1183,71 @@
           }, 300);
           wider.className = "calWider close";
         }
+
+        let scrollBar = target.querySelector(".bigCal-bar");
+        let scrollBarRail = scrollBar.parentElement;
+        let bigCalRows = bigCal.querySelector('.bigCal-rows');
+        let modifyScrollBarDisabled = false;
+        let startTop;
+        let maxTop;
+        let hRows = 0;
+        bigCalRows.addEventListener("scroll", modifyScrollBar);
+        scrollBar.addEventListener("touchstart",scrollBardragStart);
+        scrollBar.addEventListener("mousedown",scrollBardragStart);
+        function modifyScrollBar () {
+          if(!modifyScrollBarDisabled) {
+            let hView = bigCal.getBoundingClientRect().height;
+            let hRows = 0;
+            Array.from(bigCalRows.children).forEach((elm) => {
+              hRows += elm.getBoundingClientRect().height;
+            });
+            let h = Math.max(hView/hRows, 25);
+            let topView = bigCalRows.scrollTop;
+            let scrollPos = topView/(hRows-hView);
+            scrollBar.style.height = h+"px";
+            scrollBar.style.top = ((hView-h)*scrollPos)+"px";
+          }
+        }
+        function scrollBardragStart (e) {
+          window.addEventListener("touchmove", scrollBardrag, {passive: false});
+          window.addEventListener("mousemove", scrollBardrag);
+          window.addEventListener("touchend", scrollBardragEnd);
+          window.addEventListener("mouseup", scrollBardragEnd);
+          modifyScrollBarDisabled = true;
+          startTop = e.target.offsetTop;
+          maxTop = e.target.parentElement.getBoundingClientRect().height-e.target.getBoundingClientRect().height;
+          if(e.type == "touchstart") {
+            allowMouse = false;
+            startY = e.touches[0].clientY;
+          } else {
+            startY = e.clientY;
+          }
+          hRows = 0;
+          Array.from(bigCalRows.children).forEach((elm) => {
+            hRows += elm.getBoundingClientRect().height;
+          });
+        }
+        function scrollBardrag (e) {
+          let y;
+          if(e.type == "touchmove") {
+            y = e.touches[0].clientY;
+          } else {
+            y = e.clientY;
+          }
+          let y_ = Math.min(Math.max(startTop+(y-startY),0),maxTop);
+          scrollBar.style.top = y_+"px";
+          bigCalRows.scrollTop = y_/maxTop*hRows;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+        function scrollBardragEnd (e) {
+          window.removeEventListener("touchmove", scrollBardrag, {passive: false});
+          window.removeEventListener("mousemove", scrollBardrag);
+          window.removeEventListener("touchend", scrollBardragEnd);
+          window.removeEventListener("mouseup", scrollBardragEnd);
+          modifyScrollBarDisabled = false;
+        }
+
       }
       function showTimelist (date) {
         console.log("open timelist", date);
@@ -1212,12 +1299,19 @@
           }
         });
       }
+      function hideScrollbar () {
+        document.querySelectorAll(".hiddenScrollbar").forEach((elm) => {
+          w = elm.parentElement.getBoundingClientRect().width;
+          elm.style.width = (w+10)+"px";
+        });
+
+      }
       window.addEventListener("scroll", function (e) {
         sticky_func ();
-
       });
       window.addEventListener("resize", function (e) {
         sticky_func ();
+        hideScrollbar ();
       });
       function isMobile () {
         if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
