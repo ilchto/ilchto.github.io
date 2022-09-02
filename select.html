@@ -2,8 +2,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/semantic.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="css/swiper-bundle.min.css"/>
+    <link type="text/css" rel="stylesheet" href="static/css/semantic.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="static/css/swiper-bundle.min.css"/>
     <style>
       body {
         min-width: 360px;
@@ -124,11 +124,11 @@
   </head>
   <body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="js/semantic.min.js"></script>
-    <script type="text/javascript" src="js/reef.min.js"></script>
-    <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
-    <script type="text/javascript" src="js/tools.js"></script>
-    <div id="background-image" style="background-image: url(source/living-room.jpg); background-size: cover; background-position: center; position: absolute; height: 300px; width: 100%;">
+    <script type="text/javascript" src="static/js/semantic.min.js"></script>
+    <script type="text/javascript" src="static/js/reef.min.js"></script>
+    <script type="text/javascript" src="static/js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="static/js/tools.js"></script>
+    <div id="background-image" style="background-image: url(static/source/living-room.jpg); background-size: cover; background-position: center; position: absolute; height: 300px; width: 100%;">
       <div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background: rgba(0,0,0,0.2);"></div>
     </div>
     <div id="content">
@@ -191,7 +191,7 @@
       let login = false;
       let selected_city = "Turku";
       let selected_agent = "all";
-      let service = {header:{fi: "Kodin perussiivous", en: "Basic house cleaning"},img:"source/living-room.jpg"};
+      let service = {header:{fi: "Kodin perussiivous", en: "Basic house cleaning"},img:"static/source/living-room.jpg"};
 
       //simulate daysAvailable
       let options = ["free","almost full","full"];
@@ -330,7 +330,7 @@
         let default_agent = meta_data.agent.placeholder[selected_language];
         meta_data.agent.agents.forEach((agent, i) => {
           let div_ = `<div data-id="${agent.id}" class="item">
-            <img class="ui avatar image" src="source/${agent.img}">
+            <img class="ui avatar image" src="static/source/${agent.img}">
             <span>${agent.name}</span>
           </div>`;
           agents = agents+div_;
@@ -364,14 +364,14 @@
               <div class="ten wide column" ${displayNone}>
                 <div style="float: right;" id="agentselector" class="ui mini labeled icon inverted dropdown button">
                   <i class="add user icon"></i>
-                  <span class="text"><img class="ui avatar image" src="source/face.png">
+                  <span class="text"><img class="ui avatar image" src="static/source/face.png">
                       ${meta_data.agent.mainoption[selected_language]}</span>
                   <div class="left menu" style="min-width: 200px;">
                     <div class="header">
                       ${meta_data.agent.menuheader[0][selected_language]}
                     </div>
                     <div data-id="all" class="item">
-                      <img class="ui avatar image" src="source/face.png">
+                      <img class="ui avatar image" src="static/source/face.png">
                       ${meta_data.agent.mainoption[selected_language]}
                     </div>
                     <div class="header">
@@ -597,7 +597,7 @@
           days_available_weekCal ();
         });
 
-        activateDayInBigCalendar(formatDate(thisDate), 0, "day");
+        activateDayInBigCalendar(activeDateStr, 0, "day");
 
         function selectDay (activeDateStr, clickedIndex, updateBigCal) {
           if (updateBigCal) {
@@ -617,6 +617,7 @@
         function activateDayInBigCalendar(datestr, speed, option) {
           let bigCalDiv = document.querySelector(".bigCalendar");
           let thisSlideDay = findDivInBigCalendar(datestr);
+          console.log(thisSlideDay);
           let thisWeekDiv = thisSlideDay.parentElement.parentElement;
           let slideIndex = getChildElementIndex(thisWeekDiv);
           if(option == "day") {
@@ -630,8 +631,11 @@
         }
         function findDivInBigCalendar (dateStr) {
           let dayDiv = document.querySelector('.bigCalendar [data-datestr="'+dateStr+'"]');
-          return dayDiv;
+          if (dayDiv == null) {
+            dayDiv = document.querySelector('.bigCalendar [data-datestr]');
+          }
           console.log(dayDiv);
+          return dayDiv;
         }
 
         let wider = target.querySelector(".calWider");
@@ -930,7 +934,7 @@
                   <div class="ui rating" data-rating="${time.rating}"></div>
                 </div>
                 <div class="right floated author">
-                  <img class="ui avatar image" src="source/${time.face}" style="position: inherit;"> ${time.name}
+                  <img class="ui avatar image" src="static/source/${time.face}" style="position: inherit;"> ${time.name}
                 </div>
               </div>
             </div>`;
