@@ -27,13 +27,17 @@
             height: 100%;
             background-size: cover;
             background-position: center;
+            animation: zoom 8s ease-in-out;
             z-index: 1;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
         }
 
-        .background.visible {
-            opacity: 1;
+        @keyframes zoom {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.1);
+            }
         }
 
         .text {
@@ -56,7 +60,7 @@
                 opacity: 1;
             }
         }
-
+        
         #mask {
             position: absolute;
             top: 0;
@@ -77,12 +81,20 @@
             z-index: 1;
             background: rgba(0, 0, 0, 0.5);
         }
+        
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="background visible" id="background1" style="background-image: url('taustakuva1.webp');"></div>
-        <div class="background" id="background2" style="background-image: url('taustakuva2.webp');"></div>
+        <div class="background" id="background1" style="background-image: url('taustakuva1.webp');"></div>
+        <div class="background hidden" id="background2" style="background-image: url('taustakuva2.webp');"></div>
         <div class="text" id="text1">Hyvää Joulua Rakas!</div>
         <div class="text hidden" id="text2">Tässä on sinulle lahja!</div>
         <div id="mask"></div>
@@ -149,14 +161,10 @@
 
         // Vaihtuva tausta ja teksti
         setTimeout(() => {
-            document.getElementById('background1').classList.remove('visible');
-            document.getElementById('background2').classList.add('visible');
-            document.getElementById('text1').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('text1').classList.add('hidden');
-                document.getElementById('text2').classList.remove('hidden');
-                document.getElementById('text2').style.opacity = "1";
-            }, 2000);
+            document.getElementById('background1').classList.add('hidden');
+            document.getElementById('background2').classList.remove('hidden');
+            document.getElementById('text1').classList.add('hidden');
+            document.getElementById('text2').classList.remove('hidden');
         }, 8000);
     </script>
 </body>
